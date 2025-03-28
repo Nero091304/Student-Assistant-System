@@ -1,6 +1,8 @@
-import sys  # Interact with the system with the command line
+import sys  
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QVBoxLayout
-from PyQt5.QtCore import QFile, QTextStream
+from PyQt5.QtCore import QFile, QTextStream, Qt
+from PyQt5.QtGui import QPainter, QPixmap
+
 from db_connection import db_connect  # Import the database connection function
 
 class frmLogin(QWidget):
@@ -8,6 +10,7 @@ class frmLogin(QWidget):
         super().__init__()
         self.setWindowTitle("Login Form") 
         self.setGeometry(700, 150, 885, 653)  # Size and coordinates
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint) # Remove title bar
         self.cp = 0  # Counter for failed attempts
 
         layout = QVBoxLayout()
@@ -16,12 +19,14 @@ class frmLogin(QWidget):
         self.lblUser = QLabel("Username:")
         layout.addWidget(self.lblUser)
         self.txtUser = QLineEdit()
+        self.txtUser.setFixedSize(330, 51)
         layout.addWidget(self.txtUser)
         
         # Password Label and Input
         self.lblPass = QLabel("Password:")
         layout.addWidget(self.lblPass)
         self.txtPass = QLineEdit()
+        self.txtPass.setFixedSize(330, 51)
         self.txtPass.setEchoMode(QLineEdit.Password)
         layout.addWidget(self.txtPass)
         
@@ -55,6 +60,15 @@ class frmLogin(QWidget):
             self.setStyleSheet(qss)
             file.close()
 
+    def paintEvent(self, event):
+        """Set a single, properly scaled background image with opacity."""
+        painter = QPainter(self)
+        pixmap = QPixmap("BGLOGIN.jfif")  # Ensure file exists
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            painter.setOpacity(0.5)  # 3% opacity
+            painter.drawPixmap(self.rect(), scaled_pixmap)
+
     def toggle_password(self):
         """Toggle password visibility"""
         if self.show_password.isChecked():
@@ -85,7 +99,7 @@ class frmLogin(QWidget):
         con.close()
 
         if result:
-            QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Management System Dashboard")
+            QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
             self.close()  # Close the login form
             # Add code to open the main dashboard window
         else:
