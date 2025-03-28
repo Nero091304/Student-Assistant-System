@@ -1,14 +1,15 @@
-import sys #interact with the system with the command line
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QVBoxLayout, QWidget #Provides GUI components
+import sys  # Interact with the system with the command line
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QVBoxLayout
+from PyQt5.QtCore import QFile, QTextStream
 from db_connection import db_connect  # Import the database connection function
 
 class frmLogin(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login Form") 
-        self.setGeometry(700, 150, 477, 710) # size and coordinates
+        self.setGeometry(700, 150, 885, 653)  # Size and coordinates
         self.cp = 0  # Counter for failed attempts
-        
+
         layout = QVBoxLayout()
         
         # Username Label and Input
@@ -31,23 +32,36 @@ class frmLogin(QWidget):
         
         # Login Button
         self.btnLogin = QPushButton("Login")
+        self.btnLogin.setFixedSize(150, 50)
         self.btnLogin.clicked.connect(self.login)
         layout.addWidget(self.btnLogin)
-        
+
         # Exit Button
         self.btnClose = QPushButton("Exit")
         self.btnClose.clicked.connect(self.exit_app)
         layout.addWidget(self.btnClose)
         
         self.setLayout(layout)
-        
+
+        # Load external QSS file
+        self.load_stylesheet("Login.qss")
+
+    def load_stylesheet(self, file_name):
+        """Loads and applies an external QSS file."""
+        file = QFile(file_name)
+        if file.open(QFile.ReadOnly | QFile.Text):
+            stream = QTextStream(file)
+            qss = stream.readAll()
+            self.setStyleSheet(qss)
+            file.close()
+
     def toggle_password(self):
         """Toggle password visibility"""
         if self.show_password.isChecked():
             self.txtPass.setEchoMode(QLineEdit.Normal)
         else:
             self.txtPass.setEchoMode(QLineEdit.Password)
-        
+
     def login(self):
         """Handles the login authentication process"""
         username = self.txtUser.text()
@@ -60,6 +74,7 @@ class frmLogin(QWidget):
             self.txtUser.setFocus()
             return
 
+        # DATABASE CONNECTION ==================================================
         con = db_connect()  # Connect to the database
         if con is None:
             return  # Stop execution if connection fails
@@ -91,7 +106,7 @@ class frmLogin(QWidget):
 
 # Run the application
 if __name__ == "__main__":
-    app = QApplication(sys.argv) #Initializing the App
-    window = frmLogin() # Create window object
-    window.show() # Display window
-    sys.exit(app.exec_()) # Start event loop
+    app = QApplication(sys.argv)  # Initializing the App
+    window = frmLogin()  # Create window object
+    window.show()  # Display window
+    sys.exit(app.exec_())  # Start event loop

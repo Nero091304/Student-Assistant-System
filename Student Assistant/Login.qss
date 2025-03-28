@@ -1,0 +1,46 @@
+/* Form Background */
+QWidget {
+    background-color: #2C3E50;
+    border-radius: 20px;
+}
+
+/* Labels */
+QLabel {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Textboxes */
+QLineEdit {
+    background-color: #ECF0F1;
+    border: 2px solid #3498DB;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+QLineEdit:focus {
+    border: 2px solid #2980B9;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #3498DB;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #2980B9;
+}
+
+/* Checkbox */
+QCheckBox {
+    color: white;
+    font-size: 12px;
+}
+
