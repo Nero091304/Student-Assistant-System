@@ -1,7 +1,7 @@
 import sys  
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QVBoxLayout
 from PyQt5.QtCore import QFile, QTextStream, Qt
-from PyQt5.QtGui import QPainter, QPixmap
+from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor
 
 from db_connection import db_connect  # Import the database connection function
 
@@ -16,19 +16,22 @@ class frmLogin(QWidget):
         layout = QVBoxLayout()
         
         # Username Label and Input
-        self.lblUser = QLabel("Username:")
-        layout.addWidget(self.lblUser)
         self.txtUser = QLineEdit()
+        self.txtUser.setPlaceholderText("Username")
         self.txtUser.setFixedSize(330, 51)
         layout.addWidget(self.txtUser)
         
         # Password Label and Input
-        self.lblPass = QLabel("Password:")
-        layout.addWidget(self.lblPass)
         self.txtPass = QLineEdit()
+        self.txtPass.setPlaceholderText("Password")
         self.txtPass.setFixedSize(330, 51)
         self.txtPass.setEchoMode(QLineEdit.Password)
         layout.addWidget(self.txtPass)
+
+        palette = self.txtUser.palette()
+        palette.setColor(QPalette.PlaceholderText, QColor(255, 255, 255, 128))  # White with 50% opacity
+        self.txtUser.setPalette(palette)
+        self.txtPass.setPalette(palette)
         
         # Show Password Checkbox
         self.show_password = QCheckBox("Show Password")
@@ -37,7 +40,7 @@ class frmLogin(QWidget):
         
         # Login Button
         self.btnLogin = QPushButton("Login")
-        self.btnLogin.setFixedSize(150, 50)
+        self.btnLogin.setFixedSize(330, 43)
         self.btnLogin.clicked.connect(self.login)
         layout.addWidget(self.btnLogin)
 
@@ -50,6 +53,7 @@ class frmLogin(QWidget):
 
         # Load external QSS file
         self.load_stylesheet("Login.qss")
+        self.setStyleSheet("background-color: #2C2638;")
 
     def load_stylesheet(self, file_name):
         """Loads and applies an external QSS file."""
@@ -63,10 +67,10 @@ class frmLogin(QWidget):
     def paintEvent(self, event):
         """Set a single, properly scaled background image with opacity."""
         painter = QPainter(self)
-        pixmap = QPixmap("BGLOGIN.jfif")  # Ensure file exists
+        pixmap = QPixmap("bgLogin.png")  # Ensure file exists
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
-            painter.setOpacity(0.5)  # 3% opacity
+            painter.setOpacity(1)  # 3% opacity
             painter.drawPixmap(self.rect(), scaled_pixmap)
 
     def toggle_password(self):
