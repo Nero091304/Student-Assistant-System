@@ -19,13 +19,6 @@ QLineEdit {
     font-family: "Montserrat SemiBold";
 }
 
-#btnLogin:hover {
-    background-color: #483878;
-}
-#btnLogin:pressed{
-    background-color: #857AA5;
-}
-
 #btnClose {
     background-color: #4F4A5D;
     color: white;
@@ -34,3 +27,65 @@ QLineEdit {
     font-size: 20px;
     font-family: "Montserrat SemiBold";
 }
+
+#btnLogin:hover {
+    background-color: #483878;
+}
+#btnLogin:pressed {
+    background-color: #857AA5;
+}
+#btnClose:hover {
+    background-color: #857AA5;
+}
+#btnClose:pressed {
+     background-color: #483878;
+}
+
+#btnGmail, #btnApple {
+    background-color: #2C2638;
+    color: #FFFFFF;
+    border: 2px solid #8B83A3;
+    border-radius: 10px;
+    padding: 10px 50px 11px 50px;  /* Creates space between text and icon */
+    font-size: 15px;
+    font-family: "Poppins";
+    text-align: right;  /* Keeps text on the right */
+}
+
+#btnGmail:hover, #btnApple:hover {
+    background-color: #483878;
+}
+
+#btnGmail:pressed, #btnApple:pressed {
+    background-color: #857AA5;
+}
+#btnRegister, #btnLoging {
+    background-color: #3C364C;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: "Segoe UI";
+    font-weight: 1500;
+}
+
+/* Apply hover only when not checked */
+#btnRegister:hover:!checked, #btnLoging:hover:!checked {
+    background-color: #59575D;
+}
+
+/* When button is checked, keep it selected */
+#btnRegister:checked, #btnLoging:checked {
+    background-color: #857AA5;
+    color: white;
+    border: 2px solid #8B83A3;
+}
+
+/* Remove hover effect from the checked button */
+#btnRegister:checked:hover, #btnLoging:checked:hover {
+    background-color: #857AA5;
+}
+
+
+
+
+
