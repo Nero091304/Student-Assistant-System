@@ -9,12 +9,8 @@ QLineEdit {
     font-family: "Montserrat SemiBold";
 }
 
-QLineEdit:focus {
-    border: 2px solid #8B83A3;
-}
-
 /* Buttons */
-QPushButton {
+#btnLogin {
     background-color: #6D54B5;
     color: white;
     border-radius: 10px;
@@ -23,16 +19,18 @@ QPushButton {
     font-family: "Montserrat SemiBold";
 }
 
-QPushButton:hover {
+#btnLogin:hover {
     background-color: #483878;
 }
-QPushButton:pressed{
+#btnLogin:pressed{
     background-color: #857AA5;
 }
 
-/* Checkbox */
-QCheckBox {
+#btnClose {
+    background-color: #4F4A5D;
     color: white;
-    font-size: 12px;
+    border-radius: 10px;
+    padding: 0px;
+    font-size: 20px;
+    font-family: "Montserrat SemiBold";
 }
-

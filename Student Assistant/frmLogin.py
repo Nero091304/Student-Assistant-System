@@ -1,8 +1,7 @@
 import sys  
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QVBoxLayout
-from PyQt5.QtCore import QFile, QTextStream, Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt5.QtCore import Qt, QFile, QTextStream
 from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor
-
 from db_connection import db_connect  # Import the database connection function
 
 class frmLogin(QWidget):
@@ -13,46 +12,41 @@ class frmLogin(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint) # Remove title bar
         self.cp = 0  # Counter for failed attempts
 
-        layout = QVBoxLayout()
-        
-        # Username Label and Input
-        self.txtUser = QLineEdit()
+        # UsernameInput
+        self.txtUser = QLineEdit(self)
         self.txtUser.setPlaceholderText("Username")
         self.txtUser.setFixedSize(330, 51)
-        layout.addWidget(self.txtUser)
+        self.txtUser.move(500, 295)  # Adjust X and Y position
         
-        # Password Label and Input
-        self.txtPass = QLineEdit()
+        # Password Input
+        self.txtPass = QLineEdit(self)
         self.txtPass.setPlaceholderText("Password")
         self.txtPass.setFixedSize(330, 51)
         self.txtPass.setEchoMode(QLineEdit.Password)
-        layout.addWidget(self.txtPass)
+        self.txtPass.move(500, 372)  # Adjust X and Y position
 
         palette = self.txtUser.palette()
-        palette.setColor(QPalette.PlaceholderText, QColor(255, 255, 255, 128))  # White with 50% opacity
+        palette.setColor(QPalette.PlaceholderText, QColor(255, 255, 255, 77))  # 30% opacity
         self.txtUser.setPalette(palette)
         self.txtPass.setPalette(palette)
-        
-        # Show Password Checkbox
-        self.show_password = QCheckBox("Show Password")
-        self.show_password.stateChanged.connect(self.toggle_password)
-        layout.addWidget(self.show_password)
-        
+            
         # Login Button
-        self.btnLogin = QPushButton("Login")
+        self.btnLogin = QPushButton("Login", self)
         self.btnLogin.setFixedSize(330, 43)
+        self.btnLogin.move(500, 467)  # Adjust position
+        self.btnLogin.setObjectName("btnLogin")  # Assign a unique ID
         self.btnLogin.clicked.connect(self.login)
-        layout.addWidget(self.btnLogin)
-
-        # Exit Button
-        self.btnClose = QPushButton("Exit")
-        self.btnClose.clicked.connect(self.exit_app)
-        layout.addWidget(self.btnClose)
         
-        self.setLayout(layout)
+        # Exit Button
+        self.btnClose = QPushButton("X", self)
+        self.btnClose.setFixedSize(43, 37)  # Ensure consistency in size
+        self.btnClose.move(831, 13)  # Adjust position
+        self.btnClose.setObjectName("btnClose")  # Assign a unique ID
+        self.btnClose.clicked.connect(self.exit_app)
 
+        
         # Load external QSS file
-        self.load_stylesheet("Login.qss")
+        self.load_stylesheet("Login.qss")  # Ensure the stylesheet applies
         self.setStyleSheet("background-color: #2C2638;")
 
     def load_stylesheet(self, file_name):
@@ -63,14 +57,16 @@ class frmLogin(QWidget):
             qss = stream.readAll()
             self.setStyleSheet(qss)
             file.close()
+        else:
+            print("Failed to load QSS file")
 
     def paintEvent(self, event):
-        """Set a single, properly scaled background image with opacity."""
+        """Set a single, properly scaled background image."""
         painter = QPainter(self)
         pixmap = QPixmap("bgLogin.png")  # Ensure file exists
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
-            painter.setOpacity(1)  # 3% opacity
+            painter.setOpacity(1)
             painter.drawPixmap(self.rect(), scaled_pixmap)
 
     def toggle_password(self):
@@ -93,9 +89,9 @@ class frmLogin(QWidget):
             return
 
         # DATABASE CONNECTION ==================================================
-        con = db_connect()  # Connect to the database
+        con = db_connect()
         if con is None:
-            return  # Stop execution if connection fails
+            return
 
         cursor = con.cursor()
         cursor.execute("SELECT * FROM tbllogin WHERE Username = %s AND Password = %s", (username, password))
@@ -104,8 +100,7 @@ class frmLogin(QWidget):
 
         if result:
             QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
-            self.close()  # Close the login form
-            # Add code to open the main dashboard window
+            self.close()
         else:
             QMessageBox.critical(self, "Login Security", "ACCESS DENIED: Incorrect Username or Password")
             self.txtPass.clear()
@@ -122,9 +117,8 @@ class frmLogin(QWidget):
         if reply == QMessageBox.Yes:
             sys.exit()
 
-# Run the application
 if __name__ == "__main__":
-    app = QApplication(sys.argv)  # Initializing the App
-    window = frmLogin()  # Create window object
-    window.show()  # Display window
-    sys.exit(app.exec_())  # Start event loop
+    app = QApplication(sys.argv)
+    window = frmLogin()
+    window.show()
+    sys.exit(app.exec_())
