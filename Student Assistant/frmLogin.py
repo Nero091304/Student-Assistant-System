@@ -92,6 +92,11 @@ class frmLogin(QWidget):
         self.load_stylesheet("Login.qss")  
         self.setStyleSheet("background-color: #2C2638;")
 
+        # Set "LOG IN" as default selected button
+        self.btnLoging.setChecked(True)
+        self.toggle_button_styles()  # Apply styles on startup
+
+
     def toggle_button_styles(self):
         """ Ensure only one button remains in 'checked' state and updates styles properly. """
         sender = self.sender()
@@ -99,9 +104,15 @@ class frmLogin(QWidget):
         if sender == self.btnLoging:
             self.btnLoging.setChecked(True)
             self.btnRegister.setChecked(False)
+            self.txtUser.show()
+            self.txtPass.show()
+            self.btnLogin.show()
         elif sender == self.btnRegister:
             self.btnRegister.setChecked(True)
             self.btnLoging.setChecked(False)
+            self.txtUser.hide()
+            self.txtPass.hide()
+            self.btnLogin.hide()
 
         # Explicitly update styles
         self.update_button_styles()
@@ -112,7 +123,6 @@ class frmLogin(QWidget):
         self.btnLoging.style().polish(self.btnLoging)
         self.btnRegister.style().unpolish(self.btnRegister)
         self.btnRegister.style().polish(self.btnRegister)
-
 
     def load_stylesheet(self, file_name):
         """Loads and applies an external QSS file."""
