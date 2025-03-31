@@ -19,6 +19,11 @@ QLineEdit {
     font-family: "Montserrat SemiBold";
 }
 
+#btnShow{
+    background-color: #3A354A;
+    border: none;
+}
+
 #btnClose {
     background-color: #4F4A5D;
     color: white;
@@ -34,7 +39,7 @@ QLineEdit {
 #btnLogin:pressed {
     background-color: #857AA5;
 }
-#btnClose:hover {
+#btnClose:hover, #btnShow:hover {
     background-color: #857AA5;
 }
 #btnClose:pressed {

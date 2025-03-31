@@ -87,6 +87,15 @@ class frmLogin(QWidget):
         self.btnClose.setIcon(QIcon("Close.png"))
         self.btnClose.setIconSize(QSize(28, 28))
         self.btnClose.clicked.connect(self.exit_app)
+           
+        # Button to toggle password visibility
+        self.btnShowPassword = QPushButton("", self)
+        self.btnShowPassword.setFixedSize(35, 35)
+        self.btnShowPassword.move(777, 381)  
+        self.btnShowPassword.setObjectName("btnShow")  
+        self.btnShowPassword.setIcon(QIcon("eye.png"))
+        self.btnShowPassword.setIconSize(QSize(35, 35))
+        self.btnShowPassword.clicked.connect(self.toggle_password_visibility)
 
         # Load external QSS file
         self.load_stylesheet("Login.qss")  
@@ -95,6 +104,17 @@ class frmLogin(QWidget):
         # Set "LOG IN" as default selected button
         self.btnLoging.setChecked(True)
         self.toggle_button_styles()  # Apply styles on startup
+
+
+    def keyPressEvent(self, event):
+        """Handles key press events for Enter key navigation."""
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  # Check if Enter is pressed
+            if self.txtUser.hasFocus():
+                self.txtPass.setFocus()  # Move to password field
+            elif self.txtPass.hasFocus():
+                self.login()  # Attempt login if Enter is pressed in password field
+        else:
+            super().keyPressEvent(event)  # Default event handling
 
 
     def toggle_button_styles(self):
@@ -107,12 +127,14 @@ class frmLogin(QWidget):
             self.txtUser.show()
             self.txtPass.show()
             self.btnLogin.show()
+            self.btnShowPassword.show()
         elif sender == self.btnRegister:
             self.btnRegister.setChecked(True)
             self.btnLoging.setChecked(False)
             self.txtUser.hide()
             self.txtPass.hide()
             self.btnLogin.hide()
+            self.btnShowPassword.hide()
 
         # Explicitly update styles
         self.update_button_styles()
@@ -198,6 +220,13 @@ class frmLogin(QWidget):
         reply = QMessageBox.question(self, "Logout", "Do you want to Exit?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             sys.exit()
+
+    def toggle_password_visibility(self):
+        """Toggles the visibility of the password field."""
+        if self.txtPass.echoMode() == QLineEdit.Password:
+            self.txtPass.setEchoMode(QLineEdit.Normal)  # Show password
+        else:
+            self.txtPass.setEchoMode(QLineEdit.Password)  # Hide password
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
