@@ -1,8 +1,9 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox
-from PyQt5.QtCore import Qt, QFile, QTextStream, QSize, QTimer
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QGraphicsOpacityEffect
+from PyQt5.QtCore import Qt, QFile, QTextStream, QSize, QTimer, QPropertyAnimation, QPoint, QEasingCurve
 from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor, QIcon
 from db_connection import db_connect  # Import the database connection function
+from frmMain import frmMain # openfrmMain 
 
 class frmLogin(QWidget):
     def __init__(self):
@@ -15,8 +16,17 @@ class frmLogin(QWidget):
         # Image Slideshow (Placed on the Left Side)
         self.lblImage = QLabel(self)
         self.lblImage.setFixedSize(460, 653)  # Match left section size
-        self.lblImage.move(0, 0)  # Align to the left
+        self.lblImage.move(230, 0)  # Align to the left
+        self.lblImage.setObjectName("lblImage")
         self.lblImage.setScaledContents(True)
+
+        # Second QLabel for smooth transition effect
+        self.lblNextImage = QLabel(self)
+        self.lblNextImage.setFixedSize(460, 653)
+        self.lblNextImage.move(460, 230)  # Start off-screen
+        self.lblNextImage.setScaledContents(True)
+        self.lblNextImage.hide()
+
 
         # List of images for slideshow
         self.image_index = 0
@@ -177,6 +187,9 @@ class frmLogin(QWidget):
         self.btnLoging.setChecked(True)
         self.toggle_button_styles()  # Apply styles on startup
 
+        
+        # Connect the create account button to the function
+        self.btnCreate.clicked.connect(self.create_account)
 
     def keyPressEvent(self, event):
         """Handles key press events for Enter key navigation."""
@@ -262,7 +275,7 @@ class frmLogin(QWidget):
             self.txtUser.setFocus()
             return
 
-        # DATABASE CONNECTION ==================================================
+        # DATABASE CONNECTION LOGIN ==================================================
         con = db_connect()
         if con is None:
             QMessageBox.critical(self, "Database Error", "Failed to connect to the database.")
@@ -280,7 +293,9 @@ class frmLogin(QWidget):
 
         if result:
             QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
-            self.close()
+            self.main_window = frmMain()  # Create an instance of the main form
+            self.main_window.show()  # Show the main form
+            self.close()  # Close the login form
         else:
             QMessageBox.critical(self, "Login Security", "ACCESS DENIED: Incorrect Username or Password")
             self.txtPass.clear()
@@ -291,6 +306,50 @@ class frmLogin(QWidget):
                 QMessageBox.critical(self, "Limit Reached", "Student Management System application will now close.")
                 sys.exit()
 
+    # DATABASE CONNECTION Create ==================================================
+    def create_account(self):
+        """Handles the creation of a new user account."""
+        new_username = self.txtNewUser.text().strip()
+        new_password = self.txtNewPass.text().strip()
+        confirm_password = self.txtConfirmPass.text().strip()
+    
+        if not new_username or not new_password or not confirm_password:
+            QMessageBox.warning(self, "Message Prompt", "Please fill in all fields.")
+            return
+    
+        if new_password != confirm_password:
+            QMessageBox.warning(self, "Message Prompt", "Passwords do not match.")
+            return
+    
+        con = db_connect()
+        if con is None:
+            QMessageBox.critical(self, "Database Error", "Failed to connect to the database.")
+            return
+    
+        try:
+            cursor = con.cursor()
+            cursor.execute("SELECT * FROM tbllogin WHERE Username = %s", (new_username,))
+            existing_user = cursor.fetchone()
+    
+            if existing_user:
+                QMessageBox.warning(self, "Message Prompt", "Username already exists. Please choose another.")
+                return
+    
+            cursor.execute("INSERT INTO tbllogin (Username, Password) VALUES (%s, %s)", (new_username, new_password))
+            con.commit()
+    
+            QMessageBox.information(self, "Account Created", "Your account has been successfully created!")
+    
+            self.txtNewUser.clear()
+            self.txtNewPass.clear()
+            self.txtConfirmPass.clear()
+            self.btnLoging.click()  # Switch back to login form
+    
+        except Exception as e:
+            QMessageBox.critical(self, "Database Error", f"An error occurred: {e}")
+        finally:
+            con.close()
+   
     def gmail(self):
         """Handles Gmail login functionality"""
         QMessageBox.information(self, "Gmail Login", "Gmail login feature is under development, please check back later.")
@@ -313,9 +372,43 @@ class frmLogin(QWidget):
             field.setEchoMode(QLineEdit.Password)  # Hide password
 
     def update_image(self):
-        """Updates the QLabel to display the next image in the list."""
-        self.image_index = (self.image_index + 1) % len(self.image_list)
-        self.lblImage.setPixmap(QPixmap(self.image_list[self.image_index]))
+        """Smooth transition: Current image moves left, new image enters from right."""
+    
+        # Determine the next image index
+        next_index = (self.image_index + 1) % len(self.image_list)
+    
+        # Load the next image into lblNextImage (Hidden initially)
+        self.lblNextImage.setPixmap(QPixmap(self.image_list[next_index]))
+        self.lblNextImage.move(self.lblImage.width(), 50)  # Position off-screen (right)
+        self.lblNextImage.show()
+
+        # Animate the current image to move left
+        self.animation_out = QPropertyAnimation(self.lblImage, b"pos")
+        self.animation_out.setDuration(1000)  # 1-second transition
+        self.animation_out.setStartValue(QPoint(0, 0))
+        self.animation_out.setEndValue(QPoint(-self.lblImage.width(), 0))  # Move left
+        self.animation_out.setEasingCurve(QEasingCurve.OutCubic)
+
+        # Animate the new image to move in from the right
+        self.animation_in = QPropertyAnimation(self.lblNextImage, b"pos")
+        self.animation_in.setDuration(1000)
+        self.animation_in.setStartValue(QPoint(self.lblImage.width(), 0))  # Start from right
+        self.animation_in.setEndValue(QPoint(0, 0))  # Move to position
+        self.animation_in.setEasingCurve(QEasingCurve.OutCubic)
+
+        # After the animation, swap lblImage and lblNextImage
+        def swap_images():
+            self.lblImage.setPixmap(QPixmap(self.image_list[next_index]))  # Set new image
+            self.lblImage.move(0, 0)  # Reset position
+            self.lblNextImage.hide()  # Hide extra QLabel
+            self.image_index = next_index  # Update index
+    
+        # Connect animation finish to swapping images
+        self.animation_in.finished.connect(swap_images)
+
+        # Start animations
+        self.animation_out.start()
+        self.animation_in.start()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
