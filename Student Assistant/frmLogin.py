@@ -1,6 +1,6 @@
-import sys  
+import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox
-from PyQt5.QtCore import Qt, QFile, QTextStream, QSize
+from PyQt5.QtCore import Qt, QFile, QTextStream, QSize, QTimer
 from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor, QIcon
 from db_connection import db_connect  # Import the database connection function
 
@@ -11,6 +11,24 @@ class frmLogin(QWidget):
         self.setGeometry(500, 150, 885, 653)  # Size and coordinates
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove title bar
         self.cp = 0  # Counter for failed attempts
+
+        # Image Slideshow (Placed on the Left Side)
+        self.lblImage = QLabel(self)
+        self.lblImage.setFixedSize(460, 653)  # Match left section size
+        self.lblImage.move(0, 0)  # Align to the left
+        self.lblImage.setScaledContents(True)
+
+        # List of images for slideshow
+        self.image_index = 0
+        self.image_list = ["img1.png", "img2.png", "img3.png"]
+
+        # Timer to change images
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_image)
+        self.timer.start(4000)  # Change image every 4 seconds
+
+        # Show the first image immediately
+        self.update_image()
 
         # Username Input
         self.txtUser = QLineEdit(self)
@@ -25,11 +43,52 @@ class frmLogin(QWidget):
         self.txtPass.setEchoMode(QLineEdit.Password)
         self.txtPass.move(500, 372)  
 
+        # Create Username Input
+        self.txtNewUser = QLineEdit(self)
+        self.txtNewUser.setPlaceholderText("Create Username")
+        self.txtNewUser.setFixedSize(330, 51)
+        self.txtNewUser.move(501, 271)
+
+        # Create Password Input
+        self.txtNewPass = QLineEdit(self)
+        self.txtNewPass.setPlaceholderText("Create Password")
+        self.txtNewPass.setFixedSize(330, 51)
+        self.txtNewPass.setEchoMode(QLineEdit.Password)
+        self.txtNewPass.move(501, 334)
+
+        # Create Confirm Password Input
+        self.txtConfirmPass = QLineEdit(self)
+        self.txtConfirmPass.setPlaceholderText("Confirm Password")
+        self.txtConfirmPass.setFixedSize(330, 51)
+        self.txtConfirmPass.setEchoMode(QLineEdit.Password)
+        self.txtConfirmPass.move(501, 397)
+        
+        # Login Button
+        self.btnLogin = QPushButton("Login", self)
+        self.btnLogin.setFixedSize(330, 43)
+        self.btnLogin.move(500, 467)  
+        self.btnLogin.setObjectName("btnLogin")  
+        self.btnLogin.clicked.connect(self.login)
+
+        self.btnCreate = QPushButton("Create Account", self)
+        self.btnCreate.setFixedSize(330, 43)
+        self.btnCreate.move(500, 467) 
+        self.btnCreate.setObjectName("btnCreate")
+
+        #Hide Create User Inputs
+        self.txtNewUser.hide()
+        self.txtNewPass.hide()
+        self.txtConfirmPass.hide()
+        self.btnCreate.hide()
+
         # Placeholder Text Color
         palette = self.txtUser.palette()
         palette.setColor(QPalette.PlaceholderText, QColor(255, 255, 255, 77))  # 30% opacity
         self.txtUser.setPalette(palette)
         self.txtPass.setPalette(palette)
+        self.txtNewUser.setPalette(palette)
+        self.txtNewPass.setPalette(palette)
+        self.txtConfirmPass.setPalette(palette)
 
         # Register Button
         self.btnRegister = QPushButton("REGISTER", self)
@@ -49,13 +108,6 @@ class frmLogin(QWidget):
 
         self.btnLoging.clicked.connect(self.toggle_button_styles)
         self.btnRegister.clicked.connect(self.toggle_button_styles)
-
-        # Login Button
-        self.btnLogin = QPushButton("Login", self)
-        self.btnLogin.setFixedSize(330, 43)
-        self.btnLogin.move(500, 467)  
-        self.btnLogin.setObjectName("btnLogin")  
-        self.btnLogin.clicked.connect(self.login)
 
         # Gmail Button (Adjusted Position)
         self.btnGmail = QPushButton("Gmail", self)
@@ -88,14 +140,34 @@ class frmLogin(QWidget):
         self.btnClose.setIconSize(QSize(28, 28))
         self.btnClose.clicked.connect(self.exit_app)
            
-        # Button to toggle password visibility
+        # Show Password Buttons
         self.btnShowPassword = QPushButton("", self)
         self.btnShowPassword.setFixedSize(35, 35)
         self.btnShowPassword.move(777, 381)  
         self.btnShowPassword.setObjectName("btnShow")  
         self.btnShowPassword.setIcon(QIcon("eye.png"))
         self.btnShowPassword.setIconSize(QSize(35, 35))
-        self.btnShowPassword.clicked.connect(self.toggle_password_visibility)
+        self.btnShowPassword.clicked.connect(lambda: self.toggle_password_visibility(self.txtPass))
+
+        self.btnShowNewPassword = QPushButton("", self)
+        self.btnShowNewPassword.setFixedSize(35, 35)
+        self.btnShowNewPassword.move(777, 342)  
+        self.btnShowNewPassword.setObjectName("btnShow")  
+        self.btnShowNewPassword.setIcon(QIcon("eye.png"))
+        self.btnShowNewPassword.setIconSize(QSize(35, 35))
+        self.btnShowNewPassword.clicked.connect(lambda: self.toggle_password_visibility(self.txtNewPass))
+
+        self.btnShowConfirmPassword = QPushButton("", self)
+        self.btnShowConfirmPassword.setFixedSize(35, 35)
+        self.btnShowConfirmPassword.move(777, 405)  
+        self.btnShowConfirmPassword.setObjectName("btnShow")  
+        self.btnShowConfirmPassword.setIcon(QIcon("eye.png"))
+        self.btnShowConfirmPassword.setIconSize(QSize(35, 35))
+        self.btnShowConfirmPassword.clicked.connect(lambda: self.toggle_password_visibility(self.txtConfirmPass))
+
+        # Hide Show Password Buttons
+        self.btnShowNewPassword.hide()
+        self.btnShowConfirmPassword.hide()
 
         # Load external QSS file
         self.load_stylesheet("Login.qss")  
@@ -128,6 +200,12 @@ class frmLogin(QWidget):
             self.txtPass.show()
             self.btnLogin.show()
             self.btnShowPassword.show()
+            self.txtNewUser.hide()
+            self.txtNewPass.hide()
+            self.txtConfirmPass.hide()
+            self.btnCreate.hide()
+            self.btnShowNewPassword.hide()
+            self.btnShowConfirmPassword.hide()
         elif sender == self.btnRegister:
             self.btnRegister.setChecked(True)
             self.btnLoging.setChecked(False)
@@ -135,6 +213,12 @@ class frmLogin(QWidget):
             self.txtPass.hide()
             self.btnLogin.hide()
             self.btnShowPassword.hide()
+            self.txtNewUser.show()
+            self.txtNewPass.show()
+            self.txtConfirmPass.show()
+            self.btnCreate.show()
+            self.btnShowNewPassword.show()
+            self.btnShowConfirmPassword.show()
 
         # Explicitly update styles
         self.update_button_styles()
@@ -221,12 +305,17 @@ class frmLogin(QWidget):
         if reply == QMessageBox.Yes:
             sys.exit()
 
-    def toggle_password_visibility(self):
-        """Toggles the visibility of the password field."""
-        if self.txtPass.echoMode() == QLineEdit.Password:
-            self.txtPass.setEchoMode(QLineEdit.Normal)  # Show password
+    def toggle_password_visibility(self, field):
+        """Toggles the visibility of a given password field."""
+        if field.echoMode() == QLineEdit.Password:
+            field.setEchoMode(QLineEdit.Normal)  # Show password
         else:
-            self.txtPass.setEchoMode(QLineEdit.Password)  # Hide password
+            field.setEchoMode(QLineEdit.Password)  # Hide password
+
+    def update_image(self):
+        """Updates the QLabel to display the next image in the list."""
+        self.image_index = (self.image_index + 1) % len(self.image_list)
+        self.lblImage.setPixmap(QPixmap(self.image_list[self.image_index]))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

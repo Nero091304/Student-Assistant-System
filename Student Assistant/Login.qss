@@ -6,17 +6,19 @@ QLineEdit {
     border-radius: 10px;
     padding: 10px 20px;
     font-size: 18px;
-    font-family: "Montserrat SemiBold";
+    font-family: "Segoe UI", sans-serif;
 }
 
 /* Buttons */
-#btnLogin {
+
+#btnLogin, #btnCreate {
     background-color: #6D54B5;
     color: white;
     border-radius: 10px;
     padding: 0px;
     font-size: 20px;
-    font-family: "Montserrat SemiBold";
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 1500;
 }
 
 #btnShow{
@@ -33,10 +35,10 @@ QLineEdit {
     font-family: "Montserrat SemiBold";
 }
 
-#btnLogin:hover {
+#btnLogin:hover, #btnCreate:hover {
     background-color: #483878;
 }
-#btnLogin:pressed {
+#btnLogin:pressed, #btnCreate:pressed {
     background-color: #857AA5;
 }
 #btnClose:hover, #btnShow:hover {
