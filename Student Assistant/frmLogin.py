@@ -8,7 +8,6 @@ from frmMain import frmMain # openfrmMain
 class frmLogin(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Login Form") 
         self.setGeometry(500, 150, 885, 653)  # Size and coordinates
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove title bar
         self.cp = 0  # Counter for failed attempts
@@ -16,17 +15,16 @@ class frmLogin(QWidget):
         # Image Slideshow (Placed on the Left Side)
         self.lblImage = QLabel(self)
         self.lblImage.setFixedSize(460, 653)  # Match left section size
-        self.lblImage.move(230, 0)  # Align to the left
+        self.lblImage.move(0, 0)  # Align to the left
         self.lblImage.setObjectName("lblImage")
         self.lblImage.setScaledContents(True)
 
         # Second QLabel for smooth transition effect
         self.lblNextImage = QLabel(self)
         self.lblNextImage.setFixedSize(460, 653)
-        self.lblNextImage.move(460, 230)  # Start off-screen
+        self.lblNextImage.move(0, 0)  # Start off-screen
         self.lblNextImage.setScaledContents(True)
         self.lblNextImage.hide()
-
 
         # List of images for slideshow
         self.image_index = 0
@@ -201,6 +199,18 @@ class frmLogin(QWidget):
         else:
             super().keyPressEvent(event)  # Default event handling
 
+    def keyPressEvent(self, event):
+        """Handles key press events for Enter key navigation."""
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  # Check if Enter is pressed
+            if self.txtNewUser.hasFocus():
+                self.txtNewPass.setFocus()  
+            elif self.txtNewPass.hasFocus():
+                self.txtConfirmPass.setFocus()  
+            elif self.txtConfirmPass.hasFocus():
+                self.create_account()
+        else:
+            super().keyPressEvent(event)  # Default event handling
+
 
     def toggle_button_styles(self):
         """ Ensure only one button remains in 'checked' state and updates styles properly. """
@@ -315,6 +325,7 @@ class frmLogin(QWidget):
     
         if not new_username or not new_password or not confirm_password:
             QMessageBox.warning(self, "Message Prompt", "Please fill in all fields.")
+            self.txtNewUser.setFocus()
             return
     
         if new_password != confirm_password:
@@ -373,42 +384,43 @@ class frmLogin(QWidget):
 
     def update_image(self):
         """Smooth transition: Current image moves left, new image enters from right."""
-    
+
         # Determine the next image index
         next_index = (self.image_index + 1) % len(self.image_list)
-    
+
         # Load the next image into lblNextImage (Hidden initially)
         self.lblNextImage.setPixmap(QPixmap(self.image_list[next_index]))
-        self.lblNextImage.move(self.lblImage.width(), 50)  # Position off-screen (right)
+        self.lblNextImage.move(0, 0)  # Position off-screen (right) using -460
         self.lblNextImage.show()
 
-        # Animate the current image to move left
+        # Animate the current image to move left (out of frame)
         self.animation_out = QPropertyAnimation(self.lblImage, b"pos")
         self.animation_out.setDuration(1000)  # 1-second transition
         self.animation_out.setStartValue(QPoint(0, 0))
         self.animation_out.setEndValue(QPoint(-self.lblImage.width(), 0))  # Move left
         self.animation_out.setEasingCurve(QEasingCurve.OutCubic)
 
-        # Animate the new image to move in from the right
+        # Animate the next image to move into place from the right
         self.animation_in = QPropertyAnimation(self.lblNextImage, b"pos")
         self.animation_in.setDuration(1000)
-        self.animation_in.setStartValue(QPoint(self.lblImage.width(), 0))  # Start from right
+        self.animation_in.setStartValue(QPoint(0, 0))  # Start off-screen (right) using -460
         self.animation_in.setEndValue(QPoint(0, 0))  # Move to position
         self.animation_in.setEasingCurve(QEasingCurve.OutCubic)
 
-        # After the animation, swap lblImage and lblNextImage
+        # After the animation, swap images
         def swap_images():
             self.lblImage.setPixmap(QPixmap(self.image_list[next_index]))  # Set new image
             self.lblImage.move(0, 0)  # Reset position
             self.lblNextImage.hide()  # Hide extra QLabel
             self.image_index = next_index  # Update index
-    
+
         # Connect animation finish to swapping images
         self.animation_in.finished.connect(swap_images)
 
         # Start animations
         self.animation_out.start()
         self.animation_in.start()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
