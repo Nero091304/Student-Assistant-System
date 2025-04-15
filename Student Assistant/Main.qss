@@ -1,1 +1,32 @@
+#btn1, #btn2, #btn3, #btn4, #btn5  {
+	background-color: #0A0C19;
+    color: white;
+    border-radius: 20px;
+    border: 2px solid #CECFC8;
+    padding: 0px;
+}
 
+#btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover, #btn5:hover, #btnTest:hover  {
+	 background-color: #CECFC8;
+}
+
+#btnTest {
+    background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #98591D,
+        stop: 1 #FE9530
+    );
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    border-radius: 35px;
+    font-size: 28px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: bold;
+}
+
+#btnUpload {
+    background-color: #D9D9D9;
+    border: transparent;
+}
