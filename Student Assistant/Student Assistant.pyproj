@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1b295b00-09f2-43d7-bd84-f9884cf9a02f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>frmLogin.py</StartupFile>
+    <StartupFile>frmMain.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,12 +21,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="frmLogin.py" />
     <Compile Include="db_connection.py" />
+    <Compile Include="frmLogin.py" />
     <Compile Include="frmMain.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Login.qss" />
+    <Content Include="Main.qss" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

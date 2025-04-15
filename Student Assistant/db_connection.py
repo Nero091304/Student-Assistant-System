@@ -20,3 +20,7 @@ def db_connect():
     except mysql.connector.Error:
         QMessageBox.critical(None, "Database Error", "Unable to connect. Please contact the system administrator!")
         return None  # Return None if connection fails
+
+
+
+
