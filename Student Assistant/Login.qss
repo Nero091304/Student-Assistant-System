@@ -36,16 +36,20 @@ QLineEdit {
 }
 
 #btnLogin:hover, #btnCreate:hover {
-    background-color: #483878;
+    background-color: #857AA5;
 }
 #btnLogin:pressed, #btnCreate:pressed {
+    background-color: #483878;
+}
+#btnShow:hover {
     background-color: #857AA5;
 }
-#btnClose:hover, #btnShow:hover {
-    background-color: #857AA5;
+
+#btnClose:hover{
+    background-color: #AA0000;
 }
 #btnClose:pressed {
-     background-color: #483878;
+     background-color: #840808;
 }
 
 #btnGmail, #btnApple {

@@ -11,29 +11,48 @@ class frmUpload(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Upload Picture")
-        self.resize(400, 400)
+        self.resize(500, 527)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.current_pixmap = None
 
         # Picture display label
         self.picLabel = QLabel(self)
-        self.picLabel.setGeometry(75, 50, 200, 200)
+        self.picLabel.setFixedSize(200, 200)
+        self.picLabel.move(155, 78)
         self.picLabel.setStyleSheet("background-color: #f0f0f0; border: 2px dashed #aaa;")
         self.picLabel.setScaledContents(True)
 
         # Upload button
         self.btnUpload = QPushButton("Upload Picture", self)
-        self.btnUpload.setGeometry(50, 320, 130, 40)
+        self.btnUpload.setFixedSize(377, 56)
+        self.btnUpload.move(65, 300)
         self.btnUpload.clicked.connect(self.upload_picture)
+        self.btnUpload.setObjectName("btnUpload1")
 
         # Remove button
         self.btnRemove = QPushButton("Remove Picture", self)
-        self.btnRemove.setGeometry(220, 320, 130, 40)
+        self.btnRemove.setFixedSize(377, 56)
+        self.btnRemove.move(65, 370)
         self.btnRemove.clicked.connect(self.remove_picture)
+        self.btnRemove.setObjectName("btnRemove")
 
         # Save button (now triggers signal)
-        self.btnSave = QPushButton("Save Picture", self)
-        self.btnSave.setGeometry(50, 360, 130, 40)
+        self.btnSave = QPushButton("Save", self)
+        self.btnSave.setFixedSize(199, 56)
+        self.btnSave.move(150, 450)
         self.btnSave.clicked.connect(self.save_picture)
+        self.btnSave.setObjectName("btnSave")
+
+        # Close button (top-right corner)
+        self.btnClose = QPushButton("", self)
+        self.btnClose.setFixedSize(43, 37)
+        self.btnClose.move(self.width() - 50, 5)  # Top-right corner
+        self.btnClose.clicked.connect(self.close)
+        self.btnClose.setObjectName("btnClose")  
+        self.btnClose.setIcon(QIcon("Close.png"))
+        self.btnClose.setIconSize(QSize(28, 28))
+
+        self.load_stylesheet("Main.qss")
 
     def upload_picture(self):
         options = QFileDialog.Options()
@@ -53,6 +72,21 @@ class frmUpload(QWidget):
             self.close()
         else:
             print("No picture to save.")
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap("UploadBG.png")  # Adjust filename if needed
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            painter.drawPixmap(0, 0, scaled_pixmap)
+
+    def load_stylesheet(self, file_path):
+        try:
+            with open(file_path, "r") as file:
+                style = file.read()
+                self.setStyleSheet(style)
+        except Exception as e:
+            print(f"Failed to load stylesheet: {e}")
 
 # Original frmMain
 class frmMain(QWidget):

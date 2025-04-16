@@ -30,3 +30,52 @@
     background-color: #D9D9D9;
     border: transparent;
 }
+
+#btnUpload1, #btnSave {
+    background-color: #6D54B5;
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    font-size: 20px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 1500;
+}
+
+#btnRemove {
+    background-color: #AA0000;
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    font-size: 20px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 1500;
+}
+
+#btnUpload1:hover, #btnSave:hover {
+     background-color: #857AA5;
+}
+
+#btnUpload1:pressed, #btnSave:pressed {
+     background-color: #483878;
+}
+
+#btnRemove:hover{
+    background-color: #FF0000;
+}
+
+#btnRemove:pressed{
+    background-color: #840808;
+}
+
+#btnClose {
+    background-color: #4F4A5D;
+    color: white;
+    border-radius: 10px;
+}
+
+#btnClose:hover{
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+     background-color: #840808;
+}
