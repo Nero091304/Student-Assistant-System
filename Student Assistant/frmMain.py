@@ -1,5 +1,5 @@
 ﻿import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog, QMessageBox
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
@@ -90,7 +90,7 @@ class frmUpload(QWidget):
 
 # Original frmMain
 class frmMain(QWidget):
-    def __init__(self):
+    def __init__(self): # , username
         super().__init__()
         self.setWindowTitle("Main Dashboard")
         self.resize(1920, 1020)
@@ -109,6 +109,17 @@ class frmMain(QWidget):
 
         # Loop video when finished
         self.player.mediaStatusChanged.connect(self.handle_media_status)
+
+        # Label to display username
+        #self.lblUsername = QLabel(f"{username}", self)
+        #self.lblUsername.setFixedSize(400, 80)
+        #self.lblUsername.move(538, 43)
+        #self.lblUsername.setObjectName("lblUsername")
+
+        self.lblSAS = QLabel("Student Assistant System", self)
+        self.lblSAS.setFixedSize(800, 80)
+        self.lblSAS.move(1100, 43)
+        self.lblSAS.setObjectName("lblSAS")
 
         # Button to open upload form
         self.btnOpenUpload = QPushButton("", self)
@@ -162,6 +173,33 @@ class frmMain(QWidget):
         self.btnTest.move(150, 830)
         self.btnTest.setObjectName("btnTest") 
 
+        # Close Button
+        self.btnClose = QPushButton("", self)
+        self.btnClose.setFixedSize(43, 37)
+        self.btnClose.move(self.width() - 50, 5)
+        self.btnClose.setIcon(QIcon("Close.png"))  # Ensure this icon exists
+        self.btnClose.setIconSize(QSize(28, 28))
+        self.btnClose.clicked.connect(self.handle_logout)
+        self.btnClose.setObjectName("btnClose1")
+
+        # Minimize Button
+        self.btnMinimize = QPushButton("", self)
+        self.btnMinimize.setFixedSize(43, 37)
+        self.btnMinimize.move(self.width() - 150, 5)
+        self.btnMinimize.setIcon(QIcon("Minimize.png"))  # Provide icon
+        self.btnMinimize.setIconSize(QSize(25, 25))
+        self.btnMinimize.clicked.connect(self.showMinimized)
+        self.btnMinimize.setObjectName("btnMinimize")
+
+        # Maximize / Restore Button
+        self.btnMaximize = QPushButton("", self)
+        self.btnMaximize.setFixedSize(43, 37)
+        self.btnMaximize.move(self.width() - 100, 5)
+        self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Provide icon
+        self.btnMaximize.setIconSize(QSize(21, 21))
+        self.btnMaximize.clicked.connect(self.toggle_maximize_restore)
+        self.btnMaximize.setObjectName("btnMaximize")
+
         self.load_stylesheet("Main.qss")
 
     def load_stylesheet(self, file_path):
@@ -186,10 +224,29 @@ class frmMain(QWidget):
             self.player.setPosition(0)
             self.player.play()
 
+    def handle_logout(self):
+        reply = QMessageBox.question(self, 'Logout Confirmation',
+                                 'Do you want to logout?',
+                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            from frmLogin import frmLogin  # Local import to avoid circular dependency
+            self.login_window = frmLogin()
+            self.login_window.show()
+            self.close()  
+
     def open_upload_form(self):
         self.upload_window = frmUpload()
         self.upload_window.picture_uploaded.connect(self.set_upload_button_image)
         self.upload_window.show()
+
+    def toggle_maximize_restore(self):
+        if self.isMaximized():
+            self.showNormal()
+            self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Optional: Switch icon
+        else:
+            self.showMaximized()
+            self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Optional: Switch icon
 
     @pyqtSlot(QPixmap)
     def set_upload_button_image(self, pixmap):
@@ -199,6 +256,12 @@ class frmMain(QWidget):
     )
         self.btnOpenUpload.setIcon(QIcon(scaled_pixmap))
         self.btnOpenUpload.setIconSize(self.btnOpenUpload.size())
+
+    def logout(self):
+        from frmLogin import frmLogin  # Delayed import to avoid circular import
+        self.login_window = frmLogin()
+        self.login_window.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

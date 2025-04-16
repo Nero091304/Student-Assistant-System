@@ -303,9 +303,9 @@ class frmLogin(QWidget):
 
         if result:
             QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
-            self.main_window = frmMain()  # Create an instance of the main form
-            self.main_window.show()  # Show the main form
-            self.close()  # Close the login form
+            self.main_window = frmMain(username)  # Pass username to frmMain
+            self.main_window.show()
+            self.close()
         else:
             QMessageBox.critical(self, "Login Security", "ACCESS DENIED: Incorrect Username or Password")
             self.txtPass.clear()

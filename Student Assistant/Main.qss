@@ -51,6 +51,10 @@
     font-weight: 1500;
 }
 
+#btnUpload:hover {
+    background-color: #AAAAAA;
+}
+
 #btnUpload1:hover, #btnSave:hover {
      background-color: #857AA5;
 }
@@ -67,15 +71,34 @@
     background-color: #840808;
 }
 
-#btnClose {
-    background-color: #4F4A5D;
+#btnClose, #btnClose1, #btnMaximize, #btnMinimize {
     color: white;
     border-radius: 10px;
 }
 
-#btnClose:hover{
+#btnClose:hover, #btnClose1:hover {
     background-color: #AA0000;
 }
-#btnClose:pressed {
+#btnClose:pressed, #btnClose1:pressed {
      background-color: #840808;
 }
+#btnMaximize:hover, #btnMinimize:hover{
+    background-color: #4F4A5D;
+}
+#btnMaximize:pressed, #btnMinimize:pressed{
+    background-color: #857AA5;
+}
+
+#lblUsername {
+     color: #FFFFFF;
+     font-size: 42px;
+     font-family: "Segoe UI", sans-serif;
+     font-weight: 1500;
+}
+#lblSAS
+{
+     color: #FFFFFF;
+     font-size: 60px;
+     font-family: "Segoe UI", sans-serif;
+     font-weight: 1500;
+}   
