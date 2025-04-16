@@ -27,7 +27,7 @@
 }
 
 #btnUpload {
-    background-color: #D9D9D9;
+    background-color: transparent;
     border: transparent;
 }
 

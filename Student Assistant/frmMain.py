@@ -8,19 +8,26 @@ from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 class frmUpload(QWidget):
     picture_uploaded = pyqtSignal(QPixmap)  # Signal to send image back
 
-    def __init__(self):
+    def __init__(self, existing_pixmap=None):
         super().__init__()
         self.setWindowTitle("Upload Picture")
         self.resize(500, 527)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.current_pixmap = None
+
+        if existing_pixmap:
+            self.current_pixmap = existing_pixmap
+        else:
+            self.current_pixmap = QPixmap("user.png")  # ← Default image
 
         # Picture display label
         self.picLabel = QLabel(self)
         self.picLabel.setFixedSize(200, 200)
         self.picLabel.move(155, 78)
-        self.picLabel.setStyleSheet("background-color: #f0f0f0; border: 2px dashed #aaa;")
+        self.picLabel.setStyleSheet("background-color: transparent; border: 2px dashed #aaa;")
         self.picLabel.setScaledContents(True)
+
+        if self.current_pixmap:
+            self.picLabel.setPixmap(self.current_pixmap)
 
         # Upload button
         self.btnUpload = QPushButton("Upload Picture", self)
@@ -62,16 +69,27 @@ class frmUpload(QWidget):
             self.picLabel.setPixmap(self.current_pixmap)
 
     def remove_picture(self):
-        self.picLabel.clear()
-        self.picLabel.setStyleSheet("background-color: #f0f0f0; border: 2px dashed #aaa;")
-        self.current_pixmap = None
+        self.current_pixmap = QPixmap("user.png")  # Reset to default image
+        self.picLabel.setPixmap(self.current_pixmap)
+        self.picLabel.setStyleSheet("background-color: transparent; border: 2px dashed #aaa;")
 
     def save_picture(self):
         if self.current_pixmap:
-            self.picture_uploaded.emit(self.current_pixmap)  # Emit signal with the image
-            self.close()
+            reply = QMessageBox.question(
+            self,
+            "Confirm Save",
+            "Do you want to save this picture?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+            if reply == QMessageBox.Yes:
+                self.picture_uploaded.emit(self.current_pixmap)
+                QMessageBox.information(self, "Success", "Picture uploaded successfully.")
+                self.close()
+            else:
+                QMessageBox.information(self, "Picture was not saved.")
         else:
-            print("No picture to save.")
+            QMessageBox.warning(self, "No Picture", "No picture to save.")
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -90,11 +108,13 @@ class frmUpload(QWidget):
 
 # Original frmMain
 class frmMain(QWidget):
-    def __init__(self): # , username
+    def __init__(self, username): # 
         super().__init__()
         self.setWindowTitle("Main Dashboard")
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
+
+        self.last_uploaded_pixmap = None
 
         # Video Widget
         self.videoWidget = QVideoWidget(self)
@@ -111,10 +131,10 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        #self.lblUsername = QLabel(f"{username}", self)
-        #self.lblUsername.setFixedSize(400, 80)
-        #self.lblUsername.move(538, 43)
-        #self.lblUsername.setObjectName("lblUsername")
+        self.lblUsername = QLabel(f"{username}", self)
+        self.lblUsername.setFixedSize(400, 80)
+        self.lblUsername.move(544, 43)
+        self.lblUsername.setObjectName("lblUsername")
 
         self.lblSAS = QLabel("Student Assistant System", self)
         self.lblSAS.setFixedSize(800, 80)
@@ -124,9 +144,19 @@ class frmMain(QWidget):
         # Button to open upload form
         self.btnOpenUpload = QPushButton("", self)
         self.btnOpenUpload.setFixedSize(65, 65)
-        self.btnOpenUpload.move(115, 45)
+        self.btnOpenUpload.move(120, 48)
         self.btnOpenUpload.clicked.connect(self.open_upload_form)
         self.btnOpenUpload.setObjectName("btnUpload")
+
+        # Set default user icon before any upload
+        default_pixmap = QPixmap("user.png")
+        if not default_pixmap.isNull():
+            icon_size = QSize(55, 55)  # Set icon size here
+            scaled = default_pixmap.scaled(icon_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.btnOpenUpload.setIcon(QIcon(scaled))
+            self.btnOpenUpload.setIconSize(icon_size)
+            self.last_uploaded_pixmap = default_pixmap
+
 
         self.btn1 = QPushButton("", self)
         self.btn1.setFixedSize(150, 150)
@@ -236,7 +266,7 @@ class frmMain(QWidget):
             self.close()  
 
     def open_upload_form(self):
-        self.upload_window = frmUpload()
+        self.upload_window = frmUpload(existing_pixmap=self.last_uploaded_pixmap)
         self.upload_window.picture_uploaded.connect(self.set_upload_button_image)
         self.upload_window.show()
 
@@ -250,7 +280,8 @@ class frmMain(QWidget):
 
     @pyqtSlot(QPixmap)
     def set_upload_button_image(self, pixmap):
-    # Scale the image to fit the button size exactly
+        self.last_uploaded_pixmap = pixmap  # store pixmap for future use
+
         scaled_pixmap = pixmap.scaled(
         self.btnOpenUpload.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
     )
