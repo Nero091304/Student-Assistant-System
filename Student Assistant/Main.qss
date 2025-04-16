@@ -6,8 +6,12 @@
     padding: 0px;
 }
 
-#btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover, #btn5:hover, #btnTest:hover  {
+#btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover, #btn5:hover {
 	 background-color: #CECFC8;
+}
+
+#btn1:pressed, #btn2:pressed, #btn3:pressed, #btn4:pressed, #btn5:pressed {
+	 background-color: #898A85;
 }
 
 #btnTest {
@@ -24,6 +28,14 @@
     font-size: 28px;
     font-family: "Segoe UI", sans-serif;
     font-weight: bold;
+}
+
+#btnTest:hover{
+    background-color: #804B18;
+}
+
+#btnTest:pressed{
+    background-color: #553210;
 }
 
 #btnUpload {
@@ -97,8 +109,14 @@
 }
 #lblSAS
 {
-     color: #FFFFFF;
-     font-size: 60px;
-     font-family: "Segoe UI", sans-serif;
-     font-weight: 1500;
+    color: #FFFFFF;
+    font-size: 60px;
+    font-family: "Georgia";
+    font-weight: 1500;
 }   
+#lblSAS:hover {
+     color: #FFB300;
+}
+#lblSAS:pressed {
+     color: #AA7700;
+}

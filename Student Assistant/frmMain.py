@@ -1,9 +1,22 @@
 ﻿import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog, QMessageBox, QSizePolicy
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtGui import QPainter, QPixmap, QIcon
-from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QPainter, QPixmap, QIcon, QFont, QColor, QLinearGradient, QPen, QCursor
+from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, QPropertyAnimation, QRect, QEvent, pyqtSlot
+from PyQt5.QtCore import QPropertyAnimation, QEvent, QEasingCurve, QPoint, QTimer
+
+class frmAboutSAS(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About SAS")
+        self.resize(400, 300)
+        self.setWindowFlags(Qt.WindowType.Window)
+
+        label = QLabel("Student Assistant System\nVersion 1.0\nCreated by You", self)
+        label.setAlignment(Qt.AlignCenter)
+        label.setGeometry(50, 100, 300, 100)
+        label.setStyleSheet("font-size: 16px;")
 
 class frmUpload(QWidget):
     picture_uploaded = pyqtSignal(QPixmap)  # Signal to send image back
@@ -108,7 +121,7 @@ class frmUpload(QWidget):
 
 # Original frmMain
 class frmMain(QWidget):
-    def __init__(self, username): # 
+    def __init__(self): # , username
         super().__init__()
         self.setWindowTitle("Main Dashboard")
         self.resize(1920, 1020)
@@ -131,16 +144,18 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        self.lblUsername = QLabel(f"{username}", self)
-        self.lblUsername.setFixedSize(400, 80)
-        self.lblUsername.move(544, 43)
-        self.lblUsername.setObjectName("lblUsername")
+        #self.lblUsername = QLabel(f"{username}", self)
+        #self.lblUsername.setFixedSize(400, 80)
+        #self.lblUsername.move(544, 43)
+        #self.lblUsername.setObjectName("lblUsername")
 
+         # Text label
         self.lblSAS = QLabel("Student Assistant System", self)
         self.lblSAS.setFixedSize(800, 80)
-        self.lblSAS.move(1100, 43)
+        self.lblSAS.move(1050, 43)
         self.lblSAS.setObjectName("lblSAS")
-
+        self.lblSAS.mousePressEvent = self.open_about_sas_form
+       
         # Button to open upload form
         self.btnOpenUpload = QPushButton("", self)
         self.btnOpenUpload.setFixedSize(65, 65)
@@ -156,7 +171,6 @@ class frmMain(QWidget):
             self.btnOpenUpload.setIcon(QIcon(scaled))
             self.btnOpenUpload.setIconSize(icon_size)
             self.last_uploaded_pixmap = default_pixmap
-
 
         self.btn1 = QPushButton("", self)
         self.btn1.setFixedSize(150, 150)
@@ -293,6 +307,10 @@ class frmMain(QWidget):
         self.login_window = frmLogin()
         self.login_window.show()
         self.close()
+
+    def open_about_sas_form(self, event):
+        self.about_sas_window = frmAboutSAS()
+        self.about_sas_window.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
