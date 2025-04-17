@@ -122,7 +122,16 @@
 }
 
 #btnback {
-    #background-color: transparent;
-    color: #FFFFFF;
+    background-color: transparent;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: "Consolas";
+    font-weight: bold;
+}
+
+#btnback:hover {
+    background-color: #ADABB1;
+    background-color: rgba(173, 171, 177, 0.5);
 }
 

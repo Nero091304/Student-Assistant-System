@@ -1,10 +1,9 @@
 ﻿import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog, QMessageBox, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QFileDialog, QMessageBox, QFrame
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtGui import QPainter, QPixmap, QIcon, QFont, QColor, QLinearGradient, QPen, QCursor
-from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, QPropertyAnimation, QRect, QEvent, pyqtSlot
-from PyQt5.QtCore import QPropertyAnimation, QEvent, QEasingCurve, QPoint, QTimer
+from PyQt5.QtGui import QPainter, QPixmap, QIcon
+from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 
 class frmAboutSAS(QWidget):
     def __init__(self):
@@ -13,10 +12,17 @@ class frmAboutSAS(QWidget):
         self.resize(1200, 800)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
+        self.container = QFrame(self)
+        self.container.setGeometry(0, 0, self.width(), self.height())
+        self.container.setStyleSheet("QFrame { border: 6px solid #CECFC8; background-color: transparent; }")
+
         self.btnback = QPushButton("Back", self)
-        self.btnback.setFixedSize(377, 56)
-        self.btnback.move(self.width() - 400, 5)
+        self.btnback.setFixedSize(140, 40)
+        self.btnback.move(self.width() - 150, 10)
         self.btnback.setObjectName("btnback")
+        self.btnback.setIcon(QIcon("back.png"))
+        self.btnback.setIconSize(QSize(40, 40))
+        self.btnback.setLayoutDirection(Qt.RightToLeft)
         self.btnback.clicked.connect(self.close)
 
         self.load_stylesheet("Main.qss")
@@ -43,6 +49,10 @@ class frmUpload(QWidget):
         self.setWindowTitle("Upload Picture")
         self.resize(500, 527)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
+        self.container = QFrame(self)
+        self.container.setGeometry(0, 0, self.width(), self.height())
+        self.container.setStyleSheet("QFrame { border: 3px solid #CECFC8; background-color: transparent; }")
 
         if existing_pixmap:
             self.current_pixmap = existing_pixmap
