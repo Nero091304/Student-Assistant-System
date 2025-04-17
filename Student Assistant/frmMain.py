@@ -10,13 +10,30 @@ class frmAboutSAS(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("About SAS")
-        self.resize(400, 300)
-        self.setWindowFlags(Qt.WindowType.Window)
+        self.resize(1200, 800)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
-        label = QLabel("Student Assistant System\nVersion 1.0\nCreated by You", self)
-        label.setAlignment(Qt.AlignCenter)
-        label.setGeometry(50, 100, 300, 100)
-        label.setStyleSheet("font-size: 16px;")
+        self.btnback = QPushButton("Back", self)
+        self.btnback.setFixedSize(377, 56)
+        self.btnback.move(self.width() - 400, 5)
+        self.btnback.setObjectName("btnback")
+        self.btnback.clicked.connect(self.close)
+
+        self.load_stylesheet("Main.qss")
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap("AboutUs.png")  # Make sure the image file is in the same directory
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            painter.drawPixmap(0, 0, scaled_pixmap)
+
+    def load_stylesheet(self, file_path):
+        try:
+            with open(file_path, "r") as file:
+                self.setStyleSheet(file.read())
+        except Exception as e:
+            print(f"Failed to load stylesheet: {e}")
 
 class frmUpload(QWidget):
     picture_uploaded = pyqtSignal(QPixmap)  # Signal to send image back
@@ -87,22 +104,23 @@ class frmUpload(QWidget):
         self.picLabel.setStyleSheet("background-color: transparent; border: 2px dashed #aaa;")
 
     def save_picture(self):
-        if self.current_pixmap:
-            reply = QMessageBox.question(
+     if self.current_pixmap:
+        reply = QMessageBox.question(
             self,
             "Confirm Save",
             "Do you want to save this picture?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
-            if reply == QMessageBox.Yes:
-                self.picture_uploaded.emit(self.current_pixmap)
-                QMessageBox.information(self, "Success", "Picture uploaded successfully.")
-                self.close()
-            else:
-                QMessageBox.information(self, "Picture was not saved.")
+        if reply == QMessageBox.Yes:
+            self.picture_uploaded.emit(self.current_pixmap)
+            QMessageBox.information(self, "Success", "Picture uploaded successfully.")
+            self.close()
         else:
-            QMessageBox.warning(self, "No Picture", "No picture to save.")
+            QMessageBox.information(self, "Cancelled", "Picture was not saved.")
+            self.close()  # ✅ Close form even when user selects No
+     else:
+        QMessageBox.warning(self, "No Picture", "No picture to save.")
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -127,6 +145,8 @@ class frmMain(QWidget):
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
+        self.upload_window = None
+        self.about_sas_window = None
         self.last_uploaded_pixmap = None
 
         # Video Widget
@@ -280,9 +300,17 @@ class frmMain(QWidget):
             self.close()  
 
     def open_upload_form(self):
-        self.upload_window = frmUpload(existing_pixmap=self.last_uploaded_pixmap)
-        self.upload_window.picture_uploaded.connect(self.set_upload_button_image)
-        self.upload_window.show()
+        if self.about_sas_window and self.about_sas_window.isVisible():
+            self.about_sas_window.close()
+
+    # If already open, bring to front
+        if self.upload_window and self.upload_window.isVisible():
+            self.upload_window.raise_()
+            self.upload_window.activateWindow()
+        else:
+            self.upload_window = frmUpload(existing_pixmap=self.last_uploaded_pixmap)
+            self.upload_window.picture_uploaded.connect(self.set_upload_button_image)
+            self.upload_window.show()
 
     def toggle_maximize_restore(self):
         if self.isMaximized():
@@ -309,8 +337,16 @@ class frmMain(QWidget):
         self.close()
 
     def open_about_sas_form(self, event):
-        self.about_sas_window = frmAboutSAS()
-        self.about_sas_window.show()
+        if self.upload_window and self.upload_window.isVisible():
+            self.upload_window.close()
+
+        # If already open, bring to front
+        if self.about_sas_window and self.about_sas_window.isVisible():
+            self.about_sas_window.raise_()
+            self.about_sas_window.activateWindow()
+        else:
+            self.about_sas_window = frmAboutSAS()
+            self.about_sas_window.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

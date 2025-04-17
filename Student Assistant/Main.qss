@@ -44,7 +44,7 @@
 }
 
 #btnUpload1, #btnSave {
-    background-color: #6D54B5;
+    background-color: #8644F2;
     color: white;
     border-radius: 10px;
     padding: 0px;
@@ -115,8 +115,14 @@
     font-weight: 1500;
 }   
 #lblSAS:hover {
-     color: #FFB300;
+     color: #8644f2;
 }
 #lblSAS:pressed {
      color: #AA7700;
 }
+
+#btnback {
+    #background-color: transparent;
+    color: #FFFFFF;
+}
+
