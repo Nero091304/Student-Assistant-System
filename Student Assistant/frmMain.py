@@ -151,13 +151,13 @@ class frmUpload(QWidget):
 class frmMain(QWidget):
     def __init__(self): # , username
         super().__init__()
-        self.setWindowTitle("Main Dashboard")
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.upload_window = None
         self.about_sas_window = None
         self.last_uploaded_pixmap = None
+        self.background_image = "chess.png"
 
         # Video Widget
         self.videoWidget = QVideoWidget(self)
@@ -174,10 +174,10 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        #self.lblUsername = QLabel(f"{username}", self)
-        #self.lblUsername.setFixedSize(400, 80)
-        #self.lblUsername.move(544, 43)
-        #self.lblUsername.setObjectName("lblUsername")
+        """self.lblUsername = QLabel(f"{username}", self)
+        self.lblUsername.setFixedSize(400, 80)
+        self.lblUsername.move(544, 43)
+        self.lblUsername.setObjectName("lblUsername")"""
 
          # Text label
         self.lblSAS = QLabel("Student Assistant System", self)
@@ -208,20 +208,26 @@ class frmMain(QWidget):
         self.btn1.setIcon(QIcon("knight.png"))
         self.btn1.setIconSize(QSize(75, 75))
         self.btn1.setObjectName("btn1")  
+        self.btn1.clicked.connect(self.set_chess_background)
+        self.btn1.clicked.connect(self.handle_btn1_click)
 
         self.btn2 = QPushButton("", self)
         self.btn2.setFixedSize(150, 150)
         self.btn2.move(270, 160)
         self.btn2.setIcon(QIcon("compass.png"))
         self.btn2.setIconSize(QSize(80, 80))
-        self.btn2.setObjectName("btn2")  
+        self.btn2.setObjectName("btn2")
+        self.btn2.clicked.connect(self.change_background)
+        self.btn2.clicked.connect(self.handle_btn2_click)
 
         self.btn3 = QPushButton("", self)
         self.btn3.setFixedSize(150, 150)
         self.btn3.move(430, 160)
         self.btn3.setIcon(QIcon("pin.png"))
-        self.btn3.setIconSize(QSize(80, 80))
+        self.btn3.setIconSize(QSize(90, 90))
         self.btn3.setObjectName("btn3")  
+        self.btn3.clicked.connect(self.change_background1)
+        self.btn3.clicked.connect(self.handle_btn3_click)
 
         self.btn4 = QPushButton("", self)
         self.btn4.setFixedSize(150, 150)
@@ -229,6 +235,8 @@ class frmMain(QWidget):
         self.btn4.setIcon(QIcon("brain.png"))
         self.btn4.setIconSize(QSize(90, 90))
         self.btn4.setObjectName("btn4")  
+        self.btn4.clicked.connect(self.change_background2)
+        self.btn4.clicked.connect(self.handle_btn4_click)
 
         self.btn5 = QPushButton("", self)
         self.btn5.setFixedSize(150, 150)
@@ -236,16 +244,33 @@ class frmMain(QWidget):
         self.btn5.setIcon(QIcon("trends.png"))
         self.btn5.setIconSize(QSize(75, 75))
         self.btn5.setObjectName("btn5")  
+        self.btn5.clicked.connect(self.change_background3)
+        self.btn5.clicked.connect(self.handle_btn5_click)
+
+        self.btnCourse = QPushButton("View Courses", self)
+        self.btnCourse.setFixedSize(350, 72)
+        self.btnCourse.move(150, 830)
+        self.btnCourse.setObjectName("btnCourse")  
+
+        self.btnLSPU = QPushButton("About LSPU", self)
+        self.btnLSPU.setFixedSize(350, 72)
+        self.btnLSPU.move(150, 830)
+        self.btnLSPU.setObjectName("btnLSPU") 
+
+        self.btnRIASEC = QPushButton("View RIASEC", self)
+        self.btnRIASEC.setFixedSize(350, 72)
+        self.btnRIASEC.move(150, 830)
+        self.btnRIASEC.setObjectName("btnRIASEC") 
+
+        self.btnHistory = QPushButton("View History", self)
+        self.btnHistory.setFixedSize(350, 72)
+        self.btnHistory.move(150, 830)
+        self.btnHistory.setObjectName("btnHistory") 
 
         self.btnTest = QPushButton("Test Now", self)
         self.btnTest.setFixedSize(350, 72)
         self.btnTest.move(150, 830)
         self.btnTest.setObjectName("btnTest")  
-
-        self.btnTest = QPushButton("Test Now", self)
-        self.btnTest.setFixedSize(350, 72)
-        self.btnTest.move(150, 830)
-        self.btnTest.setObjectName("btnTest") 
 
         # Close Button
         self.btnClose = QPushButton("", self)
@@ -357,6 +382,75 @@ class frmMain(QWidget):
         else:
             self.about_sas_window = frmAboutSAS()
             self.about_sas_window.show()
+
+    def set_chess_background(self):
+    # Change background to chess.png
+        self.set_background_image("chess.png") 
+
+    def change_background(self):
+        # Switch background image to Navigation.png
+        self.background_image = "Navigation.png"
+        self.update()  
+
+    def change_background1(self):
+        self.background_image = "LSPU.png"
+        self.update()  
+
+    def change_background2(self):
+        self.background_image = "RIASEC.png"
+        self.update()  
+
+    def change_background3(self):
+        self.background_image = "History.png"
+        self.update()  
+
+    def set_background_image(self, image_path):
+        self.background_image = image_path
+        self.update()  # Trigger a repaint to apply the new background
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap(self.background_image)  # Use the background_image variable
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+            x = (self.width() - scaled_pixmap.width()) // 2
+            y = (self.height() - scaled_pixmap.height()) // 2
+            painter.drawPixmap(x, y, scaled_pixmap)
+
+    def handle_btn1_click(self):
+        self.btnTest.setVisible(True) 
+        self.btnCourse.setVisible(False)  
+        self.btnLSPU.setVisible(False)     
+        self.btnRIASEC.setVisible(False)   
+        self.btnHistory.setVisible(False)  
+
+    def handle_btn2_click(self):
+        self.btnTest.setVisible(False) 
+        self.btnCourse.setVisible(True)  
+        self.btnLSPU.setVisible(False)     
+        self.btnRIASEC.setVisible(False)   
+        self.btnHistory.setVisible(False)  
+
+    def handle_btn3_click(self):
+        self.btnTest.setVisible(False) 
+        self.btnCourse.setVisible(False)  
+        self.btnLSPU.setVisible(True)     
+        self.btnRIASEC.setVisible(False)   
+        self.btnHistory.setVisible(False)  
+
+    def handle_btn4_click(self):
+        self.btnTest.setVisible(False) 
+        self.btnCourse.setVisible(False)  
+        self.btnLSPU.setVisible(False)     
+        self.btnRIASEC.setVisible(True)   
+        self.btnHistory.setVisible(False)  
+
+    def handle_btn5_click(self):
+        self.btnTest.setVisible(False) 
+        self.btnCourse.setVisible(False)  
+        self.btnLSPU.setVisible(False)     
+        self.btnRIASEC.setVisible(False)   
+        self.btnHistory.setVisible(True)  
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

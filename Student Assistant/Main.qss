@@ -30,12 +30,100 @@
     font-weight: bold;
 }
 
+#btnCourse {
+    background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #1460AA,
+        stop: 1 #1E90FF
+    );
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    border-radius: 35px;
+    font-size: 28px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: bold;
+}
+
+#btnLSPU {
+    background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #A40000,
+        stop: 1 #F70000
+    );
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    border-radius: 35px;
+    font-size: 28px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: bold;
+}
+
+#btnRIASEC {
+    background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #249E95,
+        stop: 1 #36EEE0
+    );
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    border-radius: 35px;
+    font-size: 28px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: bold;
+}
+
+#btnHistory {
+    background: qlineargradient(
+        x1: 0, y1: 0,
+        x2: 0, y2: 1,
+        stop: 0 #80209E,
+        stop: 1 #C031EE
+    );
+    color: white;
+    border-radius: 10px;
+    padding: 0px;
+    border-radius: 35px;
+    font-size: 28px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: bold;
+}
+
 #btnTest:hover{
     background-color: #804B18;
+}
+#btnCourse:hover{
+    background-color: #1460AA;
+}
+#btnLSPU:hover{
+    background-color: #A40000;
+}
+#btnRIASEC:hover{
+    background-color: #249E95;
+}
+#btnHistory:hover{
+    background-color: #80209E;
 }
 
 #btnTest:pressed{
     background-color: #553210;
+}
+#btnCourse:pressed{
+    background-color: #0A3055;
+}
+#btnLSPU:pressed{
+    background-color: #520000;
+}
+#btnRIASEC:pressed{
+    background-color: #124F4A;
+}
+#btnHistory:pressed{
+    background-color: #40104F;
 }
 
 #btnUpload {
