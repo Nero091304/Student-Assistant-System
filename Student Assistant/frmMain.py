@@ -8,7 +8,6 @@ from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 class frmAboutSAS(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("About SAS")
         self.resize(1200, 800)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
@@ -46,7 +45,6 @@ class frmUpload(QWidget):
 
     def __init__(self, existing_pixmap=None):
         super().__init__()
-        self.setWindowTitle("Upload Picture")
         self.resize(500, 527)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
@@ -149,7 +147,7 @@ class frmUpload(QWidget):
 
 # Original frmMain
 class frmMain(QWidget):
-    def __init__(self): # , username
+    def __init__(self, username): # 
         super().__init__()
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -174,10 +172,10 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        """self.lblUsername = QLabel(f"{username}", self)
+        self.lblUsername = QLabel(f"{username}", self)
         self.lblUsername.setFixedSize(400, 80)
         self.lblUsername.move(544, 43)
-        self.lblUsername.setObjectName("lblUsername")"""
+        self.lblUsername.setObjectName("lblUsername")
 
          # Text label
         self.lblSAS = QLabel("Student Assistant System", self)
@@ -202,6 +200,12 @@ class frmMain(QWidget):
             self.btnOpenUpload.setIconSize(icon_size)
             self.last_uploaded_pixmap = default_pixmap
 
+        self.btn1_clicked = False
+        self.btn2_clicked = False
+        self.btn3_clicked = False
+        self.btn4_clicked = False
+        self.btn5_clicked = False
+
         self.btn1 = QPushButton("", self)
         self.btn1.setFixedSize(150, 150)
         self.btn1.move(110, 160)
@@ -210,6 +214,8 @@ class frmMain(QWidget):
         self.btn1.setObjectName("btn1")  
         self.btn1.clicked.connect(self.set_chess_background)
         self.btn1.clicked.connect(self.handle_btn1_click)
+        self.btn1.enterEvent = self.on_btn1_hover
+        self.btn1.leaveEvent = self.on_btn1_leave
 
         self.btn2 = QPushButton("", self)
         self.btn2.setFixedSize(150, 150)
@@ -219,6 +225,8 @@ class frmMain(QWidget):
         self.btn2.setObjectName("btn2")
         self.btn2.clicked.connect(self.change_background)
         self.btn2.clicked.connect(self.handle_btn2_click)
+        self.btn2.enterEvent = self.on_btn2_hover
+        self.btn2.leaveEvent = self.on_btn2_leave
 
         self.btn3 = QPushButton("", self)
         self.btn3.setFixedSize(150, 150)
@@ -228,6 +236,8 @@ class frmMain(QWidget):
         self.btn3.setObjectName("btn3")  
         self.btn3.clicked.connect(self.change_background1)
         self.btn3.clicked.connect(self.handle_btn3_click)
+        self.btn3.enterEvent = self.on_btn3_hover
+        self.btn3.leaveEvent = self.on_btn3_leave
 
         self.btn4 = QPushButton("", self)
         self.btn4.setFixedSize(150, 150)
@@ -237,6 +247,8 @@ class frmMain(QWidget):
         self.btn4.setObjectName("btn4")  
         self.btn4.clicked.connect(self.change_background2)
         self.btn4.clicked.connect(self.handle_btn4_click)
+        self.btn4.enterEvent = self.on_btn4_hover
+        self.btn4.leaveEvent = self.on_btn4_leave
 
         self.btn5 = QPushButton("", self)
         self.btn5.setFixedSize(150, 150)
@@ -246,6 +258,8 @@ class frmMain(QWidget):
         self.btn5.setObjectName("btn5")  
         self.btn5.clicked.connect(self.change_background3)
         self.btn5.clicked.connect(self.handle_btn5_click)
+        self.btn5.enterEvent = self.on_btn5_hover
+        self.btn5.leaveEvent = self.on_btn5_leave
 
         self.btnCourse = QPushButton("View Courses", self)
         self.btnCourse.setFixedSize(350, 72)
@@ -271,6 +285,8 @@ class frmMain(QWidget):
         self.btnTest.setFixedSize(350, 72)
         self.btnTest.move(150, 830)
         self.btnTest.setObjectName("btnTest")  
+
+        self.handle_btn1_click() #Set default button when openning form
 
         # Close Button
         self.btnClose = QPushButton("", self)
@@ -422,35 +438,146 @@ class frmMain(QWidget):
         self.btnCourse.setVisible(False)  
         self.btnLSPU.setVisible(False)     
         self.btnRIASEC.setVisible(False)   
-        self.btnHistory.setVisible(False)  
+        self.btnHistory.setVisible(False) 
+        self.btn1_clicked = True
+        self.btn1.setIcon(QIcon("knightR.png"))
+        self.reset_btn2()
+        self.reset_btn3()
+        self.reset_btn4()
+        self.reset_btn5()
+        self.btn1.setStyleSheet("background-color: rgba(206, 207, 200, 0.9);")
+
 
     def handle_btn2_click(self):
         self.btnTest.setVisible(False) 
         self.btnCourse.setVisible(True)  
         self.btnLSPU.setVisible(False)     
         self.btnRIASEC.setVisible(False)   
-        self.btnHistory.setVisible(False)  
+        self.btnHistory.setVisible(False)
+        self.btn2_clicked = True
+        self.btn2.setIcon(QIcon("compassR.png"))
+        self.reset_btn1()
+        self.reset_btn3()
+        self.reset_btn4()
+        self.reset_btn5()
+        self.btn2.setStyleSheet("background-color: rgba(206, 207, 200, 0.9);")
 
     def handle_btn3_click(self):
         self.btnTest.setVisible(False) 
         self.btnCourse.setVisible(False)  
         self.btnLSPU.setVisible(True)     
         self.btnRIASEC.setVisible(False)   
-        self.btnHistory.setVisible(False)  
+        self.btnHistory.setVisible(False)
+        self.btn3_clicked = True
+        self.btn3.setIcon(QIcon("pinR.png"))
+        self.reset_btn1()
+        self.reset_btn2()
+        self.reset_btn4()
+        self.reset_btn5()
+        self.btn3.setStyleSheet("background-color: rgba(206, 207, 200, 0.9);")
 
     def handle_btn4_click(self):
         self.btnTest.setVisible(False) 
         self.btnCourse.setVisible(False)  
         self.btnLSPU.setVisible(False)     
         self.btnRIASEC.setVisible(True)   
-        self.btnHistory.setVisible(False)  
+        self.btnHistory.setVisible(False)
+        self.btn4_clicked = True
+        self.btn4.setIcon(QIcon("brainR.png"))
+        self.reset_btn1()
+        self.reset_btn2()
+        self.reset_btn3()
+        self.reset_btn5()
+        self.btn4.setStyleSheet("background-color: rgba(206, 207, 200, 0.9);")
 
     def handle_btn5_click(self):
         self.btnTest.setVisible(False) 
         self.btnCourse.setVisible(False)  
         self.btnLSPU.setVisible(False)     
         self.btnRIASEC.setVisible(False)   
-        self.btnHistory.setVisible(True)  
+        self.btnHistory.setVisible(True) 
+        self.btn5_clicked = True
+        self.btn5.setIcon(QIcon("trendsR.png"))
+        self.reset_btn1()
+        self.reset_btn2()
+        self.reset_btn3()
+        self.reset_btn4()
+        self.btn5.setStyleSheet("background-color: rgba(206, 207, 200, 0.9);")
+
+    def reset_btn1(self):
+        self.btn1_clicked = False
+        self.btn1.setIcon(QIcon("knight.png"))
+        self.btn1.setStyleSheet("background-color: none;")
+
+    def reset_btn2(self):
+        self.btn2_clicked = False
+        self.btn2.setIcon(QIcon("compass.png"))
+        self.btn2.setStyleSheet("background-color: none;")
+
+    def reset_btn3(self):
+        self.btn3_clicked = False
+        self.btn3.setIcon(QIcon("pin.png"))
+        self.btn3.setStyleSheet("background-color: none;")
+
+    def reset_btn4(self):
+        self.btn4_clicked = False
+        self.btn4.setIcon(QIcon("brain.png"))
+        self.btn4.setStyleSheet("background-color: none;")
+
+    def reset_btn5(self):
+        self.btn5_clicked = False
+        self.btn5.setIcon(QIcon("trends.png"))
+        self.btn5.setStyleSheet("background-color: none;")
+
+    def on_btn1_hover(self, event):
+        if not self.btn1_clicked:
+            self.btn1.setIcon(QIcon("knightR.png"))
+        super(QPushButton, self.btn1).enterEvent(event)  
+
+    def on_btn1_leave(self, event):
+        if not self.btn1_clicked:
+            self.btn1.setIcon(QIcon("knight.png"))
+        super(QPushButton, self.btn1).leaveEvent(event)  
+
+    def on_btn2_hover(self, event):
+        if not self.btn2_clicked:
+            self.btn2.setIcon(QIcon("compassR.png"))
+        super(QPushButton, self.btn2).enterEvent(event)  
+
+    def on_btn2_leave(self, event):
+        if not self.btn2_clicked:
+            self.btn2.setIcon(QIcon("compass.png"))
+        super(QPushButton, self.btn2).leaveEvent(event) 
+
+    def on_btn3_hover(self, event):
+        if not self.btn3_clicked:
+            self.btn3.setIcon(QIcon("pinR.png"))
+        super(QPushButton, self.btn3).enterEvent(event)   
+
+    def on_btn3_leave(self, event):
+        if not self.btn3_clicked:
+            self.btn3.setIcon(QIcon("pin.png"))
+        super(QPushButton, self.btn3).leaveEvent(event) 
+
+    def on_btn4_hover(self, event):
+        if not self.btn4_clicked:
+            self.btn4.setIcon(QIcon("brainR.png"))
+        super(QPushButton, self.btn4).enterEvent(event)  
+
+    def on_btn4_leave(self, event):
+        if not self.btn4_clicked:
+            self.btn4.setIcon(QIcon("brain.png"))
+        super(QPushButton, self.btn4).leaveEvent(event)  
+
+    def on_btn5_hover(self, event):
+         if not self.btn5_clicked:
+            self.btn5.setIcon(QIcon("trendsR.png"))
+         super(QPushButton, self.btn5).enterEvent(event)  
+
+    def on_btn5_leave(self, event):
+        if not self.btn5_clicked:
+            self.btn5.setIcon(QIcon("trends.png"))
+        super(QPushButton, self.btn5).leaveEvent(event) 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

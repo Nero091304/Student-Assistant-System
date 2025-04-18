@@ -185,7 +185,6 @@ class frmLogin(QWidget):
         self.btnLoging.setChecked(True)
         self.toggle_button_styles()  # Apply styles on startup
 
-        
         # Connect the create account button to the function
         self.btnCreate.clicked.connect(self.create_account)
 

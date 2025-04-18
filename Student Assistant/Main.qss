@@ -7,11 +7,11 @@
 }
 
 #btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover, #btn5:hover {
-	 background-color: #CECFC8;
+	 background-color: rgba(206, 207, 200, 0.5);
 }
 
 #btn1:pressed, #btn2:pressed, #btn3:pressed, #btn4:pressed, #btn5:pressed {
-	 background-color: #898A85;
+	 background-color: rgba(137, 138, 133, 0.5);
 }
 
 #btnTest {
