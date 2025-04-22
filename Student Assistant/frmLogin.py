@@ -2,27 +2,27 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QGraphicsOpacityEffect
 from PyQt5.QtCore import Qt, QFile, QTextStream, QSize, QTimer, QPropertyAnimation, QPoint, QEasingCurve
 from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor, QIcon
-from db_connection import db_connect  # Import the database connection function
-from frmMain import frmMain # openfrmMain 
+from db_connection import db_connect  
+from frmMain import frmMain 
 
 class frmLogin(QWidget):
     def __init__(self):
         super().__init__()
-        self.setGeometry(500, 150, 885, 653)  # Size and coordinates
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  # Remove title bar
-        self.cp = 0  # Counter for failed attempts
+        self.setGeometry(500, 150, 885, 653)  
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  
+        self.cp = 0  
 
         # Image Slideshow (Placed on the Left Side)
         self.lblImage = QLabel(self)
-        self.lblImage.setFixedSize(460, 653)  # Match left section size
-        self.lblImage.move(0, 0)  # Align to the left
+        self.lblImage.setFixedSize(460, 653)  
+        self.lblImage.move(0, 0)  
         self.lblImage.setObjectName("lblImage")
         self.lblImage.setScaledContents(True)
 
         # Second QLabel for smooth transition effect
         self.lblNextImage = QLabel(self)
         self.lblNextImage.setFixedSize(460, 653)
-        self.lblNextImage.move(0, 0)  # Start off-screen
+        self.lblNextImage.move(0, 0)  
         self.lblNextImage.setScaledContents(True)
         self.lblNextImage.hide()
 
@@ -33,7 +33,7 @@ class frmLogin(QWidget):
         # Timer to change images
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_image)
-        self.timer.start(4000)  # Change image every 4 seconds
+        self.timer.start(4000)  
 
         # Show the first image immediately
         self.update_image()
@@ -183,24 +183,23 @@ class frmLogin(QWidget):
 
         # Set "LOG IN" as default selected button
         self.btnLoging.setChecked(True)
-        self.toggle_button_styles()  # Apply styles on startup
+        self.toggle_button_styles()  
 
-        # Connect the create account button to the function
         self.btnCreate.clicked.connect(self.create_account)
 
     def keyPressEvent(self, event):
         """Handles key press events for Enter key navigation."""
-        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  # Check if Enter is pressed
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  
             if self.txtUser.hasFocus():
-                self.txtPass.setFocus()  # Move to password field
+                self.txtPass.setFocus()  
             elif self.txtPass.hasFocus():
-                self.login()  # Attempt login if Enter is pressed in password field
+                self.login()  
         else:
-            super().keyPressEvent(event)  # Default event handling
+            super().keyPressEvent(event)  
 
     def keyPressEvent(self, event):
         """Handles key press events for Enter key navigation."""
-        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  # Check if Enter is pressed
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  
             if self.txtNewUser.hasFocus():
                 self.txtNewPass.setFocus()  
             elif self.txtNewPass.hasFocus():
@@ -208,7 +207,7 @@ class frmLogin(QWidget):
             elif self.txtConfirmPass.hasFocus():
                 self.create_account()
         else:
-            super().keyPressEvent(event)  # Default event handling
+            super().keyPressEvent(event)  
 
 
     def toggle_button_styles(self):
@@ -242,7 +241,6 @@ class frmLogin(QWidget):
             self.btnShowNewPassword.show()
             self.btnShowConfirmPassword.show()
 
-        # Explicitly update styles
         self.update_button_styles()
 
     def update_button_styles(self):
@@ -302,7 +300,7 @@ class frmLogin(QWidget):
 
         if result:
             QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
-            self.main_window = frmMain(username)  # Pass username to frmMain
+            self.main_window = frmMain(username) 
             self.main_window.show()
             self.close()
         else:
@@ -353,7 +351,7 @@ class frmLogin(QWidget):
             self.txtNewUser.clear()
             self.txtNewPass.clear()
             self.txtConfirmPass.clear()
-            self.btnLoging.click()  # Switch back to login form
+            self.btnLoging.click()  
     
         except Exception as e:
             QMessageBox.critical(self, "Database Error", f"An error occurred: {e}")
@@ -377,9 +375,9 @@ class frmLogin(QWidget):
     def toggle_password_visibility(self, field):
         """Toggles the visibility of a given password field."""
         if field.echoMode() == QLineEdit.Password:
-            field.setEchoMode(QLineEdit.Normal)  # Show password
+            field.setEchoMode(QLineEdit.Normal)  
         else:
-            field.setEchoMode(QLineEdit.Password)  # Hide password
+            field.setEchoMode(QLineEdit.Password)  
 
     def update_image(self):
         """Smooth transition: Current image moves left, new image enters from right."""
@@ -389,29 +387,29 @@ class frmLogin(QWidget):
 
         # Load the next image into lblNextImage (Hidden initially)
         self.lblNextImage.setPixmap(QPixmap(self.image_list[next_index]))
-        self.lblNextImage.move(0, 0)  # Position off-screen (right) using -460
+        self.lblNextImage.move(0, 0)  
         self.lblNextImage.show()
 
         # Animate the current image to move left (out of frame)
         self.animation_out = QPropertyAnimation(self.lblImage, b"pos")
-        self.animation_out.setDuration(1000)  # 1-second transition
+        self.animation_out.setDuration(1000)  
         self.animation_out.setStartValue(QPoint(0, 0))
-        self.animation_out.setEndValue(QPoint(-self.lblImage.width(), 0))  # Move left
+        self.animation_out.setEndValue(QPoint(-self.lblImage.width(), 0)) 
         self.animation_out.setEasingCurve(QEasingCurve.OutCubic)
 
         # Animate the next image to move into place from the right
         self.animation_in = QPropertyAnimation(self.lblNextImage, b"pos")
         self.animation_in.setDuration(1000)
-        self.animation_in.setStartValue(QPoint(0, 0))  # Start off-screen (right) using -460
-        self.animation_in.setEndValue(QPoint(0, 0))  # Move to position
+        self.animation_in.setStartValue(QPoint(0, 0))  
+        self.animation_in.setEndValue(QPoint(0, 0))  
         self.animation_in.setEasingCurve(QEasingCurve.OutCubic)
 
         # After the animation, swap images
         def swap_images():
-            self.lblImage.setPixmap(QPixmap(self.image_list[next_index]))  # Set new image
-            self.lblImage.move(0, 0)  # Reset position
-            self.lblNextImage.hide()  # Hide extra QLabel
-            self.image_index = next_index  # Update index
+            self.lblImage.setPixmap(QPixmap(self.image_list[next_index]))  
+            self.lblImage.move(0, 0)  
+            self.lblNextImage.hide()  
+            self.image_index = next_index  
 
         # Connect animation finish to swapping images
         self.animation_in.finished.connect(swap_images)

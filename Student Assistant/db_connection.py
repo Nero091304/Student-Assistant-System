@@ -2,10 +2,8 @@ import mysql.connector
 from PyQt5.QtWidgets import QMessageBox
 
 def db_connect():
-    """
-    Establishes a connection to the MySQL database.
-    Returns the connection object if successful, otherwise None.
-    """
+  
+    #Establishes a connection to the MySQL database.
     try:
         con = mysql.connector.connect(
             host="localhost",
@@ -19,7 +17,7 @@ def db_connect():
 
     except mysql.connector.Error:
         QMessageBox.critical(None, "Database Error", "Unable to connect. Please contact the system administrator!")
-        return None  # Return None if connection fails
+        return None
 
 
 

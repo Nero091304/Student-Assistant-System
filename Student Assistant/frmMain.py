@@ -4,6 +4,7 @@ from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
+from frmQuestions import frmQuestions  
 
 class frmAboutSAS(QWidget):
     def __init__(self):
@@ -28,7 +29,7 @@ class frmAboutSAS(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        pixmap = QPixmap("AboutUs.png")  # Make sure the image file is in the same directory
+        pixmap = QPixmap("AboutUs.png")  
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             painter.drawPixmap(0, 0, scaled_pixmap)
@@ -41,7 +42,7 @@ class frmAboutSAS(QWidget):
             print(f"Failed to load stylesheet: {e}")
 
 class frmUpload(QWidget):
-    picture_uploaded = pyqtSignal(QPixmap)  # Signal to send image back
+    picture_uploaded = pyqtSignal(QPixmap)  
 
     def __init__(self, existing_pixmap=None):
         super().__init__()
@@ -55,7 +56,7 @@ class frmUpload(QWidget):
         if existing_pixmap:
             self.current_pixmap = existing_pixmap
         else:
-            self.current_pixmap = QPixmap("user.png")  # ← Default image
+            self.current_pixmap = QPixmap("user.png") 
 
         # Picture display label
         self.picLabel = QLabel(self)
@@ -81,17 +82,17 @@ class frmUpload(QWidget):
         self.btnRemove.clicked.connect(self.remove_picture)
         self.btnRemove.setObjectName("btnRemove")
 
-        # Save button (now triggers signal)
+        # Save button 
         self.btnSave = QPushButton("Save", self)
         self.btnSave.setFixedSize(199, 56)
         self.btnSave.move(150, 450)
         self.btnSave.clicked.connect(self.save_picture)
         self.btnSave.setObjectName("btnSave")
 
-        # Close button (top-right corner)
+        # Close button 
         self.btnClose = QPushButton("", self)
         self.btnClose.setFixedSize(43, 37)
-        self.btnClose.move(self.width() - 50, 5)  # Top-right corner
+        self.btnClose.move(self.width() - 50, 5)  
         self.btnClose.clicked.connect(self.close)
         self.btnClose.setObjectName("btnClose")  
         self.btnClose.setIcon(QIcon("Close.png"))
@@ -107,7 +108,7 @@ class frmUpload(QWidget):
             self.picLabel.setPixmap(self.current_pixmap)
 
     def remove_picture(self):
-        self.current_pixmap = QPixmap("user.png")  # Reset to default image
+        self.current_pixmap = QPixmap("user.png")  
         self.picLabel.setPixmap(self.current_pixmap)
         self.picLabel.setStyleSheet("background-color: transparent; border: 2px dashed #aaa;")
 
@@ -126,13 +127,13 @@ class frmUpload(QWidget):
             self.close()
         else:
             QMessageBox.information(self, "Cancelled", "Picture was not saved.")
-            self.close()  # ✅ Close form even when user selects No
+            self.close() 
      else:
         QMessageBox.warning(self, "No Picture", "No picture to save.")
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        pixmap = QPixmap("UploadBG.png")  # Adjust filename if needed
+        pixmap = QPixmap("UploadBG.png")  
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             painter.drawPixmap(0, 0, scaled_pixmap)
@@ -145,9 +146,8 @@ class frmUpload(QWidget):
         except Exception as e:
             print(f"Failed to load stylesheet: {e}")
 
-# Original frmMain
 class frmMain(QWidget):
-    def __init__(self, username): # 
+    def __init__(self): # , username
         super().__init__()
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -159,7 +159,7 @@ class frmMain(QWidget):
 
         # Video Widget
         self.videoWidget = QVideoWidget(self)
-        self.videoWidget.setGeometry(1130, 450, 700, 500)  # adjust as needed
+        self.videoWidget.setGeometry(1130, 450, 700, 500)  
 
         # Media Player
         self.player = QMediaPlayer(self)
@@ -172,10 +172,10 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        self.lblUsername = QLabel(f"{username}", self)
+        """self.lblUsername = QLabel(f"{username}", self)
         self.lblUsername.setFixedSize(400, 80)
         self.lblUsername.move(544, 43)
-        self.lblUsername.setObjectName("lblUsername")
+        self.lblUsername.setObjectName("lblUsername")"""
 
          # Text label
         self.lblSAS = QLabel("Student Assistant System", self)
@@ -194,7 +194,7 @@ class frmMain(QWidget):
         # Set default user icon before any upload
         default_pixmap = QPixmap("user.png")
         if not default_pixmap.isNull():
-            icon_size = QSize(55, 55)  # Set icon size here
+            icon_size = QSize(55, 55)  
             scaled = default_pixmap.scaled(icon_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.btnOpenUpload.setIcon(QIcon(scaled))
             self.btnOpenUpload.setIconSize(icon_size)
@@ -285,14 +285,15 @@ class frmMain(QWidget):
         self.btnTest.setFixedSize(350, 72)
         self.btnTest.move(150, 830)
         self.btnTest.setObjectName("btnTest")  
+        self.btnTest.clicked.connect(self.open_questions_form)
 
-        self.handle_btn1_click() #Set default button when openning form
+        self.handle_btn1_click() 
 
         # Close Button
         self.btnClose = QPushButton("", self)
         self.btnClose.setFixedSize(43, 37)
         self.btnClose.move(self.width() - 50, 5)
-        self.btnClose.setIcon(QIcon("Close.png"))  # Ensure this icon exists
+        self.btnClose.setIcon(QIcon("Close.png"))  
         self.btnClose.setIconSize(QSize(28, 28))
         self.btnClose.clicked.connect(self.handle_logout)
         self.btnClose.setObjectName("btnClose1")
@@ -301,7 +302,7 @@ class frmMain(QWidget):
         self.btnMinimize = QPushButton("", self)
         self.btnMinimize.setFixedSize(43, 37)
         self.btnMinimize.move(self.width() - 150, 5)
-        self.btnMinimize.setIcon(QIcon("Minimize.png"))  # Provide icon
+        self.btnMinimize.setIcon(QIcon("Minimize.png")) 
         self.btnMinimize.setIconSize(QSize(25, 25))
         self.btnMinimize.clicked.connect(self.showMinimized)
         self.btnMinimize.setObjectName("btnMinimize")
@@ -310,7 +311,7 @@ class frmMain(QWidget):
         self.btnMaximize = QPushButton("", self)
         self.btnMaximize.setFixedSize(43, 37)
         self.btnMaximize.move(self.width() - 100, 5)
-        self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Provide icon
+        self.btnMaximize.setIcon(QIcon("Maximize.png"))  
         self.btnMaximize.setIconSize(QSize(21, 21))
         self.btnMaximize.clicked.connect(self.toggle_maximize_restore)
         self.btnMaximize.setObjectName("btnMaximize")
@@ -345,7 +346,7 @@ class frmMain(QWidget):
                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-            from frmLogin import frmLogin  # Local import to avoid circular dependency
+            from frmLogin import frmLogin  
             self.login_window = frmLogin()
             self.login_window.show()
             self.close()  
@@ -366,14 +367,14 @@ class frmMain(QWidget):
     def toggle_maximize_restore(self):
         if self.isMaximized():
             self.showNormal()
-            self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Optional: Switch icon
+            self.btnMaximize.setIcon(QIcon("Maximize.png"))  
         else:
             self.showMaximized()
-            self.btnMaximize.setIcon(QIcon("Maximize.png"))  # Optional: Switch icon
+            self.btnMaximize.setIcon(QIcon("Maximize.png"))  
 
     @pyqtSlot(QPixmap)
     def set_upload_button_image(self, pixmap):
-        self.last_uploaded_pixmap = pixmap  # store pixmap for future use
+        self.last_uploaded_pixmap = pixmap  
 
         scaled_pixmap = pixmap.scaled(
         self.btnOpenUpload.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation
@@ -382,7 +383,7 @@ class frmMain(QWidget):
         self.btnOpenUpload.setIconSize(self.btnOpenUpload.size())
 
     def logout(self):
-        from frmLogin import frmLogin  # Delayed import to avoid circular import
+        from frmLogin import frmLogin  
         self.login_window = frmLogin()
         self.login_window.show()
         self.close()
@@ -391,7 +392,6 @@ class frmMain(QWidget):
         if self.upload_window and self.upload_window.isVisible():
             self.upload_window.close()
 
-        # If already open, bring to front
         if self.about_sas_window and self.about_sas_window.isVisible():
             self.about_sas_window.raise_()
             self.about_sas_window.activateWindow()
@@ -400,11 +400,9 @@ class frmMain(QWidget):
             self.about_sas_window.show()
 
     def set_chess_background(self):
-    # Change background to chess.png
         self.set_background_image("chess.png") 
 
     def change_background(self):
-        # Switch background image to Navigation.png
         self.background_image = "Navigation.png"
         self.update()  
 
@@ -422,11 +420,11 @@ class frmMain(QWidget):
 
     def set_background_image(self, image_path):
         self.background_image = image_path
-        self.update()  # Trigger a repaint to apply the new background
+        self.update()  
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        pixmap = QPixmap(self.background_image)  # Use the background_image variable
+        pixmap = QPixmap(self.background_image)  
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
             x = (self.width() - scaled_pixmap.width()) // 2
@@ -532,52 +530,67 @@ class frmMain(QWidget):
     def on_btn1_hover(self, event):
         if not self.btn1_clicked:
             self.btn1.setIcon(QIcon("knightR.png"))
+            self.btn1.setStyleSheet("background-color: rgba(61, 62, 60, 0.5);")
         super(QPushButton, self.btn1).enterEvent(event)  
 
     def on_btn1_leave(self, event):
         if not self.btn1_clicked:
             self.btn1.setIcon(QIcon("knight.png"))
+            self.btn1.setStyleSheet("background-color: none;")
         super(QPushButton, self.btn1).leaveEvent(event)  
 
     def on_btn2_hover(self, event):
         if not self.btn2_clicked:
             self.btn2.setIcon(QIcon("compassR.png"))
+            self.btn2.setStyleSheet("background-color: rgba(61, 62, 60, 0.5);")
         super(QPushButton, self.btn2).enterEvent(event)  
 
     def on_btn2_leave(self, event):
         if not self.btn2_clicked:
             self.btn2.setIcon(QIcon("compass.png"))
+            self.btn2.setStyleSheet("background-color: none;")
         super(QPushButton, self.btn2).leaveEvent(event) 
 
     def on_btn3_hover(self, event):
         if not self.btn3_clicked:
             self.btn3.setIcon(QIcon("pinR.png"))
+            self.btn3.setStyleSheet("background-color: rgba(61, 62, 60, 0.5);")
         super(QPushButton, self.btn3).enterEvent(event)   
 
     def on_btn3_leave(self, event):
         if not self.btn3_clicked:
             self.btn3.setIcon(QIcon("pin.png"))
+            self.btn3.setStyleSheet("background-color: none;")
         super(QPushButton, self.btn3).leaveEvent(event) 
 
     def on_btn4_hover(self, event):
         if not self.btn4_clicked:
             self.btn4.setIcon(QIcon("brainR.png"))
+            self.btn4.setStyleSheet("background-color: rgba(61, 62, 60, 0.5);")
         super(QPushButton, self.btn4).enterEvent(event)  
 
     def on_btn4_leave(self, event):
         if not self.btn4_clicked:
             self.btn4.setIcon(QIcon("brain.png"))
+            self.btn4.setStyleSheet("background-color: none;")
         super(QPushButton, self.btn4).leaveEvent(event)  
 
     def on_btn5_hover(self, event):
          if not self.btn5_clicked:
             self.btn5.setIcon(QIcon("trendsR.png"))
+            self.btn5.setStyleSheet("background-color: rgba(61, 62, 60, 0.5);")
          super(QPushButton, self.btn5).enterEvent(event)  
 
     def on_btn5_leave(self, event):
         if not self.btn5_clicked:
             self.btn5.setIcon(QIcon("trends.png"))
+            self.btn5.setStyleSheet("background-color: none;")
         super(QPushButton, self.btn5).leaveEvent(event) 
+
+    def open_questions_form(self):
+        self.questions_form = frmQuestions()
+        self.questions_form.show()
+        #self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
