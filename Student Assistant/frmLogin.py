@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QCheckBox, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt5.QtCore import Qt, QFile, QTextStream, QSize, QTimer, QPropertyAnimation, QPoint, QEasingCurve
 from PyQt5.QtGui import QPainter, QPixmap, QPalette, QColor, QIcon
 from db_connection import db_connect  

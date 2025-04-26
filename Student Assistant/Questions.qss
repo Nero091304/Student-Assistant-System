@@ -1,0 +1,43 @@
+#btnYes, #btnNo {
+	background-color: #29324C;
+    color: white;
+    border-radius: 20px;
+    padding: 0px;
+    font-size: 45px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+ #btnSubmit {
+    background-color: rgba(41, 50, 76, 0.5);
+    color: white;
+    border-radius: 20px;
+    padding: 0px;
+    font-size: 35px;
+    font-family: "Consolas";
+    font-weight: bold;
+ }
+
+ #btnBack {
+    background-color: rgba(41, 50, 76, 0.5);
+    color: white;
+    border-radius: 10px;
+    font-size: 23px;
+    font-family: "Consolas";
+    font-weight: bold;
+ }
+
+ #btnRight, #btnLeft {
+    background-color: transparent;
+    border-radius: 10px;
+ }
+
+#btnYes:hover {
+    background-color: #007FCD;
+}
+#btnNo:hover  {
+    background-color: #AA0000;
+}
+#btnSubmit:hover, #btnBack:hover, #btnRight:hover, #btnLeft:hover {
+    background-color: rgba(112, 118, 135, 0.7);
+}
+
