@@ -1,3 +1,10 @@
+#lblUsername {
+     color: #FFFFFF;
+     font-size: 42px;
+     font-family: "Segoe UI", sans-serif;
+     font-weight: 1500;
+}
+
 #btnYes, #btnNo {
 	background-color: #29324C;
     color: white;
@@ -9,7 +16,7 @@
 
  #btnSubmit {
     background-color: rgba(41, 50, 76, 0.5);
-    color: white;
+    color: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     padding: 0px;
     font-size: 35px;
@@ -37,7 +44,10 @@
 #btnNo:hover  {
     background-color: #AA0000;
 }
-#btnSubmit:hover, #btnBack:hover, #btnRight:hover, #btnLeft:hover {
+#btnSubmit:hover{
+    background-color: #707687;
+}
+#btnBack:hover, #btnRight:hover, #btnLeft:hover {
     background-color: rgba(112, 118, 135, 0.7);
 }
 

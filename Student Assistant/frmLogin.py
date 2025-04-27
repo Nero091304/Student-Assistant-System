@@ -188,27 +188,21 @@ class frmLogin(QWidget):
         self.btnCreate.clicked.connect(self.create_account)
 
     def keyPressEvent(self, event):
-        """Handles key press events for Enter key navigation."""
-        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  
-            if self.txtUser.hasFocus():
-                self.txtPass.setFocus()  
+        if event.key() in (Qt.Key_Return, Qt.Key_Enter):
+            if self.btnLoging.isChecked():
+                if self.txtUser.hasFocus():
+                    self.txtPass.setFocus()
             elif self.txtPass.hasFocus():
-                self.login()  
-        else:
-            super().keyPressEvent(event)  
-
-    def keyPressEvent(self, event):
-        """Handles key press events for Enter key navigation."""
-        if event.key() in (Qt.Key_Return, Qt.Key_Enter):  
+                self.login()
+        elif self.btnRegister.isChecked():
             if self.txtNewUser.hasFocus():
-                self.txtNewPass.setFocus()  
+                self.txtNewPass.setFocus()
             elif self.txtNewPass.hasFocus():
-                self.txtConfirmPass.setFocus()  
+                self.txtConfirmPass.setFocus()
             elif self.txtConfirmPass.hasFocus():
                 self.create_account()
         else:
-            super().keyPressEvent(event)  
-
+            super().keyPressEvent(event)
 
     def toggle_button_styles(self):
         """ Ensure only one button remains in 'checked' state and updates styles properly. """

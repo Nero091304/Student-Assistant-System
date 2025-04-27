@@ -151,6 +151,7 @@ class frmMain(QWidget):
         super().__init__()
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
+        #self.username = username
 
         self.upload_window = None
         self.about_sas_window = None
@@ -588,7 +589,7 @@ class frmMain(QWidget):
         super(QPushButton, self.btn5).leaveEvent(event) 
 
     def open_questions_form(self):
-        self.questions_form = frmQuestions()
+        self.questions_form = frmQuestions() #self.username
         self.questions_form.show()
         #self.close()
 

@@ -1,13 +1,14 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLabel
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 
 class frmQuestions(QWidget):
-    def __init__(self):
+    def __init__(self): # , username
         super().__init__()
         self.setFixedSize(1920, 1020)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        #self.username = username
 
         self.image_list = [
             {"file": "Q1.png", "category": "realistic"},
@@ -66,6 +67,11 @@ class frmQuestions(QWidget):
         # Track user answers (None = unanswered, 1 = Yes, 0 = No)
         self.answers = [None for _ in self.image_list]
 
+        """self.lblUsername = QLabel(f"{self.username}", self)
+        self.lblUsername.setFixedSize(400, 80)
+        self.lblUsername.move(341, 36)
+        self.lblUsername.setObjectName("lblUsername")"""
+
         self.btnYes = QPushButton("Yes", self)
         self.btnYes.setFixedSize(300, 100)
         self.btnYes.move(651, 780)
@@ -82,8 +88,9 @@ class frmQuestions(QWidget):
         self.btnSubmit.setFixedSize(300, 80)
         self.btnSubmit.move(1550, 885)
         self.btnSubmit.setObjectName("btnSubmit")
-        self.btnSubmit.clicked.connect(self.submit_answers)
-
+        self.btnSubmit.clicked.connect(self.confirm_submit)
+        self.btnSubmit.setEnabled(False)
+   
         self.btnBack = QPushButton("Back", self)
         self.btnBack.setFixedSize(199, 56)
         self.btnBack.move(1685, 40)
@@ -91,7 +98,7 @@ class frmQuestions(QWidget):
         self.btnBack.setIcon(QIcon("back.png"))
         self.btnBack.setIconSize(QSize(45, 45))
         self.btnBack.setLayoutDirection(Qt.RightToLeft)
-        self.btnBack.clicked.connect(self.close)
+        self.btnBack.clicked.connect(self.confirm_back)
 
         self.btnRight = QPushButton(self)
         self.btnRight.setFixedSize(70, 70)
@@ -166,12 +173,29 @@ class frmQuestions(QWidget):
                 self.conventionalScore += 1
 
         self.update_buttons_color()
+        self.check_all_answered()
 
-    # Automatically move to next question after answering
-        if self.current_image_index < len(self.image_list) - 1:
-            self.current_image_index += 1
-            self.update()
-            self.update_buttons_color()
+        if previous_answer is None:
+        # If the question was NOT answered before, move to next automatically
+            if self.current_image_index < len(self.image_list) - 1:
+                self.current_image_index += 1
+                self.update()
+                self.update_buttons_color()
+        else:
+        # If user CHANGED an already answered question, stay on the same question
+            pass  # do nothing, stay on the same image
+            
+    def check_all_answered(self):
+        if None not in self.answers:
+            self.btnSubmit.setEnabled(True)
+            self.btnSubmit.setStyleSheet(
+            "QPushButton {background-color: #29324C; color: #FFFFFF;} "
+            "QPushButton:hover {background-color: #707687;}"
+            "QPushButton:pressed {background-color: #4A4E5A;}"
+        )
+        else:
+            self.btnSubmit.setEnabled(False)
+            self.btnSubmit.setStyleSheet("")
 
     def go_next(self):
         if self.answers[self.current_image_index] is None:
@@ -188,8 +212,24 @@ class frmQuestions(QWidget):
             self.update()
             self.update_buttons_color()
 
+    def confirm_back(self):
+        reply = QMessageBox.question(
+            self, "Confirm", "Are you sure you want to go back, any unsaved changes will not be saved?",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+    )
+        if reply == QMessageBox.Yes:
+            self.close()
+
+    def confirm_submit(self):
+        reply = QMessageBox.question(
+            self, "Confirm", "Are you sure you want to submit your answers?",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+    )
+
+        if reply == QMessageBox.Yes:
+            self.submit_answers()
+    
     def update_buttons_color(self):
-        """Update Yes/No button colors based on the saved answer for the current question."""
         answer = self.answers[self.current_image_index]
         if answer is None:
             # No answer yet, reset colors
@@ -252,6 +292,8 @@ class frmQuestions(QWidget):
         self.btnYes.hide()
         self.btnNo.hide()
         self.btnSubmit.hide()
+        self.btnBack.hide()
+        self.lblUsername.hide()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
