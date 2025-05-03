@@ -2,6 +2,12 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
+from frmRealistic import frmRealistic
+from frmInvestigative import frmInvestigative
+from frmArtistic import frmArtistic
+from frmSocial import frmSocial
+from frmEnterprising import frmEnterprising
+from frmConventional import frmConventional
 
 class frmQuestions(QWidget):
     def __init__(self): # , username
@@ -139,31 +145,37 @@ class frmQuestions(QWidget):
         self.btnClickHere1.setFixedSize(250, 60)
         self.btnClickHere1.move(943, 891)
         self.btnClickHere1.setObjectName("btnClickHere1")
+        self.btnClickHere1.clicked.connect(self.Realistic_Result)
 
         self.btnClickHere2 = QPushButton("Click Here", self)
         self.btnClickHere2.setFixedSize(250, 60)
         self.btnClickHere2.move(943, 891)
         self.btnClickHere2.setObjectName("btnClickHere2")
+        self.btnClickHere2.clicked.connect(self.Investigative_Result)
 
         self.btnClickHere3 = QPushButton("Click Here", self)
         self.btnClickHere3.setFixedSize(250, 60)
         self.btnClickHere3.move(943, 891)
         self.btnClickHere3.setObjectName("btnClickHere3")
+        self.btnClickHere3.clicked.connect(self.Artistic_Result)
 
         self.btnClickHere4 = QPushButton("Click Here", self)
         self.btnClickHere4.setFixedSize(250, 60)
         self.btnClickHere4.move(943, 891)
         self.btnClickHere4.setObjectName("btnClickHere4")
+        self.btnClickHere4.clicked.connect(self.Social_Result)
 
         self.btnClickHere5 = QPushButton("Click Here", self)
         self.btnClickHere5.setFixedSize(250, 60)
         self.btnClickHere5.move(943, 891)
         self.btnClickHere5.setObjectName("btnClickHere5")
+        self.btnClickHere5.clicked.connect(self.Enterprising_Result)
 
         self.btnClickHere6 = QPushButton("Click Here", self)
         self.btnClickHere6.setFixedSize(250, 60)
         self.btnClickHere6.move(943, 891)
         self.btnClickHere6.setObjectName("btnClickHere6")
+        self.btnClickHere6.clicked.connect(self.Conventional_Result)
         
         self.btnBack1.hide()
         self.btnReset.hide()
@@ -174,23 +186,6 @@ class frmQuestions(QWidget):
         self.btnClickHere5.hide()
         self.btnClickHere6.hide()
         
-        # BTN CLICKHERE RESULT========================================================================================
-
-        self.btnClose = QPushButton(self)
-        self.btnClose.setFixedSize(43, 37)
-        self.btnClose.move(1153, 11)
-        self.btnClose.setIcon(QIcon("Close.png"))  
-        self.btnClose.setIconSize(QSize(28, 28))
-        self.btnClose.setObjectName("btnClose")
-
-        self.btnSave = QPushButton("Save", self)
-        self.btnSave.setFixedSize(250, 60)
-        self.btnSave.move(893, 697)
-        self.btnSave.setObjectName("btnSave")
-
-        self.btnClose.hide()
-        self.btnSave.hide()
-
         self.load_stylesheet("Questions.qss")
         self.update_buttons_color()  # Initialize button colors properly
 
@@ -455,6 +450,30 @@ class frmQuestions(QWidget):
 
         self.update_buttons_color()
 
+    def Realistic_Result(self):
+        self.LSPU_form = frmRealistic() 
+        self.LSPU_form.show()
+
+    def Investigative_Result(self):
+        self.LSPU_form = frmInvestigative() 
+        self.LSPU_form.show()
+
+    def Artistic_Result(self):
+        self.LSPU_form = frmArtistic() 
+        self.LSPU_form.show()
+
+    def Social_Result(self):
+        self.LSPU_form = frmSocial() 
+        self.LSPU_form.show()
+
+    def Enterprising_Result(self):
+        self.LSPU_form = frmEnterprising() 
+        self.LSPU_form.show()
+
+    def Conventional_Result(self):
+        self.LSPU_form = frmConventional() 
+        self.LSPU_form.show()
+   
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     form = frmQuestions()

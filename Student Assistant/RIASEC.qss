@@ -1,0 +1,24 @@
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}
+
+#btnSave {
+    background-color: #121C1A;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+}
+#btnSave:hover {
+    background-color: #616766;
+}
+#btnSave:pressed {
+    background-color: #404444;
+}

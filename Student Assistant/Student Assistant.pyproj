@@ -23,14 +23,24 @@
   <ItemGroup>
     <Compile Include="db_connection.py" />
     <Compile Include="frmAboutLSPU.py" />
+    <Compile Include="frmAboutRiasec.py" />
+    <Compile Include="frmArtistic.py" />
+    <Compile Include="frmConventional.py" />
+    <Compile Include="frmEnterprising.py" />
+    <Compile Include="frmInvestigative.py" />
     <Compile Include="frmLogin.py" />
     <Compile Include="frmMain.py" />
     <Compile Include="frmQuestions.py" />
+    <Compile Include="frmRealistic.py" />
+    <Compile Include="frmSocial.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AboutLspu.qss" />
+    <Content Include="AboutRiasec.qss" />
     <Content Include="Login.qss" />
     <Content Include="Main.qss" />
     <Content Include="Questions.qss" />
+    <Content Include="RIASEC.qss" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

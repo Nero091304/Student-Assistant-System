@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 from frmQuestions import frmQuestions  
 from frmAboutLSPU import frmAboutLSPU
+from frmAboutRiasec import frmAboutRiasec
 
 class frmAboutSAS(QWidget):
     def __init__(self):
@@ -15,7 +16,7 @@ class frmAboutSAS(QWidget):
 
         self.container = QFrame(self)
         self.container.setGeometry(0, 0, self.width(), self.height())
-        self.container.setStyleSheet("QFrame { border: 6px solid #CECFC8; background-color: transparent; }")
+        self.container.setStyleSheet("QFrame { border: 4px solid #CECFC8; background-color: transparent; }")
 
         self.btnback = QPushButton("Back", self)
         self.btnback.setFixedSize(140, 40)
@@ -52,7 +53,7 @@ class frmUpload(QWidget):
 
         self.container = QFrame(self)
         self.container.setGeometry(0, 0, self.width(), self.height())
-        self.container.setStyleSheet("QFrame { border: 3px solid #CECFC8; background-color: transparent; }")
+        self.container.setStyleSheet("QFrame { border: 5px solid #CECFC8; background-color: transparent; }")
 
         if existing_pixmap:
             self.current_pixmap = existing_pixmap
@@ -277,7 +278,8 @@ class frmMain(QWidget):
         self.btnRIASEC = QPushButton("View RIASEC", self)
         self.btnRIASEC.setFixedSize(350, 72)
         self.btnRIASEC.move(150, 830)
-        self.btnRIASEC.setObjectName("btnRIASEC") 
+        self.btnRIASEC.setObjectName("btnRIASEC")  
+        self.btnRIASEC.clicked.connect(self.About_Riasec_form)
 
         self.btnHistory = QPushButton("View History", self)
         self.btnHistory.setFixedSize(350, 72)
@@ -598,6 +600,10 @@ class frmMain(QWidget):
     def About_LSPU_form(self):
         self.LSPU_form = frmAboutLSPU() 
         self.LSPU_form.show()
+
+    def About_Riasec_form(self):
+        self.Riasec_form = frmAboutRiasec() 
+        self.Riasec_form.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

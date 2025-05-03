@@ -1,30 +1,4 @@
-#lblUsername {
-     color: #FFFFFF;
-     font-size: 42px;
-     font-family: "Segoe UI", sans-serif;
-     font-weight: 1500;
-}
-
-#btnYes, #btnNo {
-	background-color: #29324C;
-    color: white;
-    border-radius: 20px;
-    padding: 0px;
-    font-size: 45px;
-    font-family: "Segoe UI", sans-serif;
-}
-
- #btnSubmit {
-    background-color: rgba(41, 50, 76, 0.5);
-    color: rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    padding: 0px;
-    font-size: 35px;
-    font-family: "Consolas";
-    font-weight: bold;
- }
-
- #btnBack {
+#btnBack {
     background-color: rgba(41, 50, 76, 0.5);
     color: white;
     border-radius: 10px;
@@ -33,34 +7,32 @@
     font-weight: bold;
  }
 
- #btnBack1 {
-    background-color: #2B3B3E;
-    color: white;
-    border-radius: 10px;
-    font-size: 23px;
-    font-family: "Consolas";
-    font-weight: bold;
- }
+ #btnBack:hover {
+    background-color: rgba(112, 118, 135, 0.7);
+}
 
- #btnReset {
+#btnAbout {
     background-color: transparent;
-    border-radius: 10px;
- }
+}
 
- #btnClickHere1 {
+#btnAbout:hover {
+    background-color: #AAAAAA;
+}
+
+#btnClickHere1 {
     background-color: #DB5471;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
-    font-weight: Bold;
+    font-weight: bold;
  }
 
  #btnClickHere2 {
     background-color: #F5A278;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
     font-weight: Bold;
  }
@@ -69,7 +41,7 @@
     background-color: #C4A82F;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
     font-weight: Bold;
  }
@@ -78,7 +50,7 @@
     background-color: #49C56D;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
     font-weight: Bold;
  }
@@ -87,7 +59,7 @@
     background-color: #11A4B2;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
     font-weight: Bold;
  }
@@ -96,7 +68,7 @@
     background-color: #9F84BD;
     color: #121C1A;
     border-radius: 10px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto";
     font-weight: Bold;
  }
@@ -138,25 +110,3 @@
  #btnClickHere6:pressed {
      background-color: #7F738C;
  }
-
- #btnRight, #btnLeft {
-    background-color: transparent;
-    border-radius: 10px;
- }
-
-#btnYes:hover {
-    background-color: #007FCD;
-}
-#btnNo:hover  {
-    background-color: #AA0000;
-}
-#btnSubmit:hover{
-    background-color: #707687;
-}
-#btnBack:hover, #btnRight:hover, #btnLeft:hover {
-    background-color: rgba(112, 118, 135, 0.7);
-}
-#btnBack1:hover, #btnReset:hover {
-    background-color: #A0A7A9;
-}
-
