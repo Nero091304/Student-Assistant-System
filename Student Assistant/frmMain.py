@@ -5,6 +5,7 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 from frmQuestions import frmQuestions  
+from frmAboutLSPU import frmAboutLSPU
 
 class frmAboutSAS(QWidget):
     def __init__(self):
@@ -271,7 +272,8 @@ class frmMain(QWidget):
         self.btnLSPU.setFixedSize(350, 72)
         self.btnLSPU.move(150, 830)
         self.btnLSPU.setObjectName("btnLSPU") 
-
+        self.btnLSPU.clicked.connect(self.About_LSPU_form)
+       
         self.btnRIASEC = QPushButton("View RIASEC", self)
         self.btnRIASEC.setFixedSize(350, 72)
         self.btnRIASEC.move(150, 830)
@@ -287,11 +289,11 @@ class frmMain(QWidget):
         self.btnTest.move(150, 830)
         self.btnTest.setObjectName("btnTest")  
         self.btnTest.clicked.connect(self.open_questions_form)
-
+      
         self.handle_btn1_click() 
 
         # Close Button
-        self.btnClose = QPushButton("", self)
+        self.btnClose = QPushButton(self)
         self.btnClose.setFixedSize(43, 37)
         self.btnClose.move(self.width() - 50, 5)
         self.btnClose.setIcon(QIcon("Close.png"))  
@@ -592,6 +594,10 @@ class frmMain(QWidget):
         self.questions_form = frmQuestions() #self.username
         self.questions_form.show()
         #self.close()
+
+    def About_LSPU_form(self):
+        self.LSPU_form = frmAboutLSPU() 
+        self.LSPU_form.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

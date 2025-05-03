@@ -22,9 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="db_connection.py" />
+    <Compile Include="frmAboutLSPU.py" />
     <Compile Include="frmLogin.py" />
     <Compile Include="frmMain.py" />
-    <Compile Include="frmMema.py" />
     <Compile Include="frmQuestions.py" />
   </ItemGroup>
   <ItemGroup>

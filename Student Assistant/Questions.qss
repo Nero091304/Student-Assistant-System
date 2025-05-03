@@ -33,6 +33,74 @@
     font-weight: bold;
  }
 
+ #btnBack1 {
+    background-color: #2B3B3E;
+    color: white;
+    border-radius: 10px;
+    font-size: 23px;
+    font-family: "Consolas";
+    font-weight: bold;
+ }
+
+ #btnReset {
+    background-color: transparent;
+    border-radius: 10px;
+ }
+
+ #btnClickHere1 {
+    background-color: #DB5471;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
+ #btnClickHere2 {
+    background-color: #F5A278;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
+ #btnClickHere3 {
+    background-color: #C4A82F;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
+ #btnClickHere4 {
+    background-color: #49C56D;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
+ #btnClickHere5 {
+    background-color: #11A4B2;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
+ #btnClickHere6 {
+    background-color: #9F84BD;
+    color: #121C1A;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+ }
+
  #btnRight, #btnLeft {
     background-color: transparent;
     border-radius: 10px;
@@ -49,5 +117,8 @@
 }
 #btnBack:hover, #btnRight:hover, #btnLeft:hover {
     background-color: rgba(112, 118, 135, 0.7);
+}
+#btnBack1:hover, #btnReset:hover {
+    background-color: #A0A7A9;
 }
 

@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 
@@ -115,7 +115,82 @@ class frmQuestions(QWidget):
         self.btnLeft.setIcon(QIcon("left.png"))
         self.btnLeft.setIconSize(QSize(50, 50))
         self.btnLeft.clicked.connect(self.go_previous)
+
+        #RESULTS========================================================================================
+
+        self.btnBack1 = QPushButton("Back", self)
+        self.btnBack1.setFixedSize(199, 56)
+        self.btnBack1.move(1698, 25)
+        self.btnBack1.setObjectName("btnBack1")
+        self.btnBack1.setIcon(QIcon("back.png"))
+        self.btnBack1.setIconSize(QSize(45, 45))
+        self.btnBack1.setLayoutDirection(Qt.RightToLeft)
+        self.btnBack1.clicked.connect(self.confirm_back)
+
+        self.btnReset = QPushButton(self)
+        self.btnReset.setFixedSize(80, 80)
+        self.btnReset.move(1403, 20)
+        self.btnReset.setObjectName("btnReset")
+        self.btnReset.setIcon(QIcon("Reset.png"))
+        self.btnReset.setIconSize(QSize(60, 60))
+        self.btnReset.clicked.connect(self.confirm_reset)
        
+        self.btnClickHere1 = QPushButton("Click Here", self)
+        self.btnClickHere1.setFixedSize(250, 60)
+        self.btnClickHere1.move(943, 891)
+        self.btnClickHere1.setObjectName("btnClickHere1")
+
+        self.btnClickHere2 = QPushButton("Click Here", self)
+        self.btnClickHere2.setFixedSize(250, 60)
+        self.btnClickHere2.move(943, 891)
+        self.btnClickHere2.setObjectName("btnClickHere2")
+
+        self.btnClickHere3 = QPushButton("Click Here", self)
+        self.btnClickHere3.setFixedSize(250, 60)
+        self.btnClickHere3.move(943, 891)
+        self.btnClickHere3.setObjectName("btnClickHere3")
+
+        self.btnClickHere4 = QPushButton("Click Here", self)
+        self.btnClickHere4.setFixedSize(250, 60)
+        self.btnClickHere4.move(943, 891)
+        self.btnClickHere4.setObjectName("btnClickHere4")
+
+        self.btnClickHere5 = QPushButton("Click Here", self)
+        self.btnClickHere5.setFixedSize(250, 60)
+        self.btnClickHere5.move(943, 891)
+        self.btnClickHere5.setObjectName("btnClickHere5")
+
+        self.btnClickHere6 = QPushButton("Click Here", self)
+        self.btnClickHere6.setFixedSize(250, 60)
+        self.btnClickHere6.move(943, 891)
+        self.btnClickHere6.setObjectName("btnClickHere6")
+        
+        self.btnBack1.hide()
+        self.btnReset.hide()
+        self.btnClickHere1.hide()
+        self.btnClickHere2.hide()
+        self.btnClickHere3.hide()
+        self.btnClickHere4.hide()
+        self.btnClickHere5.hide()
+        self.btnClickHere6.hide()
+        
+        # BTN CLICKHERE RESULT========================================================================================
+
+        self.btnClose = QPushButton(self)
+        self.btnClose.setFixedSize(43, 37)
+        self.btnClose.move(1153, 11)
+        self.btnClose.setIcon(QIcon("Close.png"))  
+        self.btnClose.setIconSize(QSize(28, 28))
+        self.btnClose.setObjectName("btnClose")
+
+        self.btnSave = QPushButton("Save", self)
+        self.btnSave.setFixedSize(250, 60)
+        self.btnSave.move(893, 697)
+        self.btnSave.setObjectName("btnSave")
+
+        self.btnClose.hide()
+        self.btnSave.hide()
+
         self.load_stylesheet("Questions.qss")
         self.update_buttons_color()  # Initialize button colors properly
 
@@ -269,7 +344,7 @@ class frmQuestions(QWidget):
 
         category_image_map = {
             "realistic": "Realistic.png",
-            "investigative": "Investigate.png",
+            "investigative": "Investigative.png",
             "artistic": "Artistic.png",
             "social": "Social.png",
             "enterprising": "Enterprising.png",
@@ -293,7 +368,92 @@ class frmQuestions(QWidget):
         self.btnNo.hide()
         self.btnSubmit.hide()
         self.btnBack.hide()
-        self.lblUsername.hide()
+        self.btnBack1.show()
+        self.btnReset.show()
+        #self.lblUsername.hide()
+
+        self.btnClickHere1.hide()
+        self.btnClickHere2.hide()
+        self.btnClickHere3.hide()
+        self.btnClickHere4.hide()
+        self.btnClickHere5.hide()
+        self.btnClickHere6.hide()
+
+        if highest_category == "realistic":
+            self.btnClickHere1.show()
+        elif highest_category == "investigative":
+            self.btnClickHere2.show()
+        elif highest_category == "artistic":
+            self.btnClickHere3.show()
+        elif highest_category == "social":
+            self.btnClickHere4.show()
+        elif highest_category == "enterprising":
+            self.btnClickHere5.show()
+        elif highest_category == "conventional":
+            self.btnClickHere6.show()
+
+    def confirm_reset(self):
+        reply = QMessageBox.question(
+            self,
+        "Confirm Reset",
+        "Do you want to take the test again?",
+        QMessageBox.Yes | QMessageBox.No,
+        QMessageBox.No
+    )
+        if reply == QMessageBox.Yes:
+            self.reset_form()
+
+    def reset_form(self):
+    # Reset scores
+        self.realisticScore = 0
+        self.investigativeScore = 0
+        self.artisticScore = 0
+        self.socialScore = 0
+        self.enterprisingScore = 0
+        self.conventionalScore = 0
+
+    # Reset answers
+        self.answers = [None for _ in range(42)]
+
+    # Restore the original image list
+        self.image_list = [
+        {"file": f"Q{i+1}.png", "category": cat} for i, cat in enumerate([
+            "realistic", "investigative", "artistic", "social", "enterprising", "conventional",
+            "realistic", "artistic", "conventional", "enterprising", "investigative", "social",
+            "social", "realistic", "conventional", "enterprising", "artistic", "investigative",
+            "enterprising", "social", "investigative", "realistic", "artistic", "conventional",
+            "conventional", "investigative", "artistic", "social", "enterprising", "realistic",
+            "artistic", "realistic", "investigative", "social", "conventional", "enterprising",
+            "realistic", "conventional", "investigative", "social", "artistic", "enterprising"
+        ])
+    ]
+
+        self.current_image_index = 0
+        self.update()
+
+    # Reset UI elements
+        self.btnYes.setEnabled(True)
+        self.btnNo.setEnabled(True)
+        self.btnYes.show()
+        self.btnNo.show()
+        self.btnLeft.show()
+        self.btnRight.show()
+        self.btnSubmit.show()
+        self.btnSubmit.setEnabled(False)
+        self.btnSubmit.setStyleSheet("")
+
+        self.btnBack.show()
+        self.btnBack1.hide()
+        self.btnReset.hide()
+
+        self.btnClickHere1.hide()
+        self.btnClickHere2.hide()
+        self.btnClickHere3.hide()
+        self.btnClickHere4.hide()
+        self.btnClickHere5.hide()
+        self.btnClickHere6.hide()
+
+        self.update_buttons_color()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
