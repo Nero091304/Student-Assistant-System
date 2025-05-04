@@ -29,6 +29,7 @@
     <Compile Include="frmMain.py" />
     <Compile Include="frmQuestions.py" />
     <Compile Include="frmQuestionsDesign.py" />
+    <Compile Include="module1.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AboutLspu.qss" />

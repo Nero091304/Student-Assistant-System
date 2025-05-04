@@ -72,5 +72,14 @@
 #btnSubmit:pressed {
     background-color: #37394C;
 }
+#cbAdmin{
+    background-color: #0A092D;
+    color: white;
+    border: 3px solid #0D72A0;
+    padding: 20px;
+    font-size: 20px;
+    font-family: "Roboto";
+    font-weight: bold;
+}
 
 
