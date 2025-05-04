@@ -110,3 +110,13 @@
  #btnClickHere6:pressed {
      background-color: #7F738C;
  }
+
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}

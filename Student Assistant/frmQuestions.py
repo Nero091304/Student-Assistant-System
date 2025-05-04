@@ -2,12 +2,12 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
-from frmRealistic import frmRealistic
-from frmInvestigative import frmInvestigative
-from frmArtistic import frmArtistic
-from frmSocial import frmSocial
-from frmEnterprising import frmEnterprising
-from frmConventional import frmConventional
+from frmQuestionsDesign import frmRealisticResult
+from frmQuestionsDesign import frmInvestigativeResult
+from frmQuestionsDesign import frmArtisticResult
+from frmQuestionsDesign import frmSocialResult
+from frmQuestionsDesign import frmEnterprisingResult
+from frmQuestionsDesign import frmConventionalResult
 
 class frmQuestions(QWidget):
     def __init__(self): # , username
@@ -451,27 +451,27 @@ class frmQuestions(QWidget):
         self.update_buttons_color()
 
     def Realistic_Result(self):
-        self.LSPU_form = frmRealistic() 
+        self.LSPU_form = frmRealisticResult() 
         self.LSPU_form.show()
 
     def Investigative_Result(self):
-        self.LSPU_form = frmInvestigative() 
+        self.LSPU_form = frmInvestigativeResult() 
         self.LSPU_form.show()
 
     def Artistic_Result(self):
-        self.LSPU_form = frmArtistic() 
+        self.LSPU_form = frmArtisticResult() 
         self.LSPU_form.show()
 
     def Social_Result(self):
-        self.LSPU_form = frmSocial() 
+        self.LSPU_form = frmSocialResult() 
         self.LSPU_form.show()
 
     def Enterprising_Result(self):
-        self.LSPU_form = frmEnterprising() 
+        self.LSPU_form = frmEnterprisingResult() 
         self.LSPU_form.show()
 
     def Conventional_Result(self):
-        self.LSPU_form = frmConventional() 
+        self.LSPU_form = frmConventionalResult() 
         self.LSPU_form.show()
    
 if __name__ == "__main__":

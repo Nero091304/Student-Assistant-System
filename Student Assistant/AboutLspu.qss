@@ -1,1 +1,76 @@
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}
+
+#btnTaskBar {
+    background-color: transparent;
+    color: #FFFFFF;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: "Roboto";
+    font-weight: Bold;
+}
+#btnTaskBar:hover {
+    background-color: transparent;
+    color: #01F5FE;
+}
+
+#btnLearnMore {
+    background-color: #01F5FE;
+    color: #000000;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: "Roboto";
+    font-weight: Bold;
+}
+#btnLearnMore:hover {
+    background-color: #38A5A9;
+}
+#btnLearnMore:pressed {
+    background-color: #55F8FE;
+}
+
+#btnUpDown {
+    background-color: rgba(41, 50, 76, 0.5);
+    color: white;
+    border-radius: 10px;
+}
+#btnUpDown:hover {
+    background-color: rgba(112, 118, 135, 0.7); 
+}
+#btnUpDown:pressed {
+    background-color: #373A4E;
+}
+
+#txtContacts {
+    background-color: #1B1F22;
+    color: rgb(255, 255, 255);
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-family: "Roboto";
+}
+
+#btnSubmit {
+    background-color: rgba(41, 50, 76, 0.5);
+    color: white;
+    border-radius: 10px;
+    font-size: 23px;
+    font-family: "Roboto";
+    font-weight: bold;
+}
+#btnSubmit:hover {
+    background-color: rgba(112, 118, 135, 0.7);
+}
+#btnSubmit:pressed {
+    background-color: #37394C;
+}
+
 

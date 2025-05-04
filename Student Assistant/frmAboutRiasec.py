@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
-from frmRealistic import frmRealistic
-from frmInvestigative import frmInvestigative
-from frmArtistic import frmArtistic
-from frmSocial import frmSocial
-from frmEnterprising import frmEnterprising
-from frmConventional import frmConventional
+from frmAboutRiasecDesign import frmRealisticLearn
+from frmAboutRiasecDesign import frmInvestigativeLearn
+from frmAboutRiasecDesign import frmArtisticLearn
+from frmAboutRiasecDesign import frmSocialLearn
+from frmAboutRiasecDesign import frmEnterprisingLearn
+from frmAboutRiasecDesign import frmConventionalLearn
 
 class frmJHL(QWidget):
     def __init__(self):
@@ -139,27 +139,27 @@ class frmAboutRiasec(QWidget):
         self.jhl_window.show()
 
     def Realistic_Result(self):
-        self.LSPU_form = frmRealistic() 
+        self.LSPU_form = frmRealisticLearn() 
         self.LSPU_form.show()
 
     def Investigative_Result(self):
-        self.LSPU_form = frmInvestigative() 
+        self.LSPU_form = frmInvestigativeLearn() 
         self.LSPU_form.show()
 
     def Artistic_Result(self):
-        self.LSPU_form = frmArtistic() 
+        self.LSPU_form = frmArtisticLearn() 
         self.LSPU_form.show()
 
     def Social_Result(self):
-        self.LSPU_form = frmSocial() 
+        self.LSPU_form = frmSocialLearn() 
         self.LSPU_form.show()
 
     def Enterprising_Result(self):
-        self.LSPU_form = frmEnterprising() 
+        self.LSPU_form = frmEnterprisingLearn() 
         self.LSPU_form.show()
 
     def Conventional_Result(self):
-        self.LSPU_form = frmConventional() 
+        self.LSPU_form = frmConventionalLearn() 
         self.LSPU_form.show()
 
 if __name__ == "__main__":

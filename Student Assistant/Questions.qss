@@ -139,7 +139,7 @@
      background-color: #7F738C;
  }
 
- #btnRight, #btnLeft {
+#btnRight, #btnLeft {
     background-color: transparent;
     border-radius: 10px;
  }
