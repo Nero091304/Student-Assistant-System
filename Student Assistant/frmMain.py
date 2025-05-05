@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QUrl, QSize, pyqtSignal, pyqtSlot
 from frmQuestions import frmQuestions  
 from frmAboutLSPU import frmAboutLSPU
+from frmAboutCourses import frmAboutCourses
 from frmAboutRiasec import frmAboutRiasec
 
 class frmAboutSAS(QWidget):
@@ -267,7 +268,8 @@ class frmMain(QWidget):
         self.btnCourse = QPushButton("View Courses", self)
         self.btnCourse.setFixedSize(350, 72)
         self.btnCourse.move(150, 830)
-        self.btnCourse.setObjectName("btnCourse")  
+        self.btnCourse.setObjectName("btnCourse") 
+        self.btnCourse.clicked.connect(self.About_Courses_form)
 
         self.btnLSPU = QPushButton("About LSPU", self)
         self.btnLSPU.setFixedSize(350, 72)
@@ -600,10 +602,14 @@ class frmMain(QWidget):
     def About_LSPU_form(self):
         self.LSPU_form = frmAboutLSPU() 
         self.LSPU_form.show()
-
+       
     def About_Riasec_form(self):
         self.Riasec_form = frmAboutRiasec() 
         self.Riasec_form.show()
+
+    def About_Courses_form(self):
+        self.Courses_form = frmAboutCourses() 
+        self.Courses_form.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

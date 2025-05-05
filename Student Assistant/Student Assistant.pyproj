@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="frmAboutCourses.py" />
     <Compile Include="db_connection.py" />
     <Compile Include="frmAboutLSPU.py" />
     <Compile Include="frmAboutRiasec.py" />
@@ -32,6 +33,7 @@
     <Compile Include="module1.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AboutCourses.qss" />
     <Content Include="AboutLspu.qss" />
     <Content Include="AboutRiasec.qss" />
     <Content Include="Login.qss" />

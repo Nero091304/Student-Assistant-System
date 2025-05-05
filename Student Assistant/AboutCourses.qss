@@ -1,0 +1,89 @@
+#btnBack {
+    background-color: rgba(41, 50, 76, 0.5);
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: "Consolas";
+    font-weight: bold;
+ }
+
+ #btnBack:hover {
+    background-color: rgba(112, 118, 135, 0.7);
+}
+
+#cbDept{
+    background-color: #0A092D;
+    color: white;
+    border: 3px solid #0D72A0;
+    padding: 20px;
+    font-size: 20px;
+    font-family: "Roboto";
+    font-weight: bold;
+}
+
+#cbCTE {
+    background-color: #0808FF;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCHMT {
+    background-color: #FF6308;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCAS {
+    background-color: #FF359B;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCCJE {
+    background-color: #840808;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCBAA {
+    background-color: #FFC208;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCOE {
+    background-color: #088408;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCCS {
+    background-color: #A327F0;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCIT {
+    background-color: #FF0808;
+    color: white;
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+
+
