@@ -22,3 +22,10 @@
 #btnSave:pressed {
     background-color: #404444;
 }
+
+#lblUsername{
+    color: #FFFFFF;
+    font-size: 42px;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 1500;
+}

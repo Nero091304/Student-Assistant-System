@@ -86,4 +86,95 @@
     font-weight: 600;
 }
 
+#cbCTE1 {
+    background-color: #010138;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCAS1 {
+    background-color: #551133;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCCJE1 {
+    background-color: #2C0202;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCBAA1 {
+    background-color: #4F3C02;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCOE1 {
+    background-color: #022C02;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCCS1 {
+    background-color: #360D50;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+#cbCIT1 {
+    background-color: #550202;
+    color: rgb(255, 255, 255, 0.5);
+    border-radius: 10px; 
+    font-size: 21px;
+    font-family: "Roboto";
+    font-weight: 600;
+}
+
+#cbCTE:hover {
+    background-color: #0505AA;
+}
+#cbCHMT:hover {
+    background-color: #AA4205;
+}
+#cbCAS:hover {
+    background-color: #AA2367;
+}
+#cbCCJE:hover {
+    background-color: #580505;
+}
+#cbCBAA:hover {
+    background-color: #AA8105;
+}
+#cbCOE:hover {
+    background-color: #055805;
+}
+#cbCCS:hover {
+    background-color: #6C1AA0;
+}
+#cbCIT:hover {
+    background-color: #AA0505;
+}
+
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}
 

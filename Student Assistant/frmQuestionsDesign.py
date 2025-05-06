@@ -1,16 +1,23 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame
+import os
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFrame, QLabel, QFileDialog
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 
 class frmRealisticResult(QWidget):
-    def __init__(self):
+    def __init__(self, username):
         super().__init__()
         self.setFixedSize(1206, 790)  
         self.setWindowFlags(Qt.FramelessWindowHint)
+        self.username = username
 
         self.container = QFrame(self)
         self.container.setGeometry(0, 0, self.width(), self.height())
         self.container.setStyleSheet("QFrame { border: 5px solid #CECFC8; background-color: transparent; }")
+
+        self.lblUsername = QLabel(f"{self.username}", self)
+        self.lblUsername.setFixedSize(256, 59)
+        self.lblUsername.move(208, 45)
+        self.lblUsername.setObjectName("lblUsername")
 
         self.btnClose = QPushButton(self)
         self.btnClose.setFixedSize(43, 37)
@@ -24,6 +31,7 @@ class frmRealisticResult(QWidget):
         self.btnSave.setFixedSize(250, 60)
         self.btnSave.move(893, 697)
         self.btnSave.setObjectName("btnSave")
+        self.btnSave.clicked.connect(self.save_screenshot)
 
         self.load_stylesheet("RIASEC.qss")
 
@@ -47,6 +55,23 @@ class frmRealisticResult(QWidget):
                 self.setStyleSheet(f.read())
         except FileNotFoundError:
             print(f"Stylesheet file '{file_path}' not found.")
+
+    def save_screenshot(self):
+        self.btnSave.setVisible(False)
+        self.btnClose.setVisible(False)
+        screenshot = self.grab()
+        default_filename = f"{self.username}_RealisticResult.png"
+        self.btnSave.setVisible(True)
+        self.btnClose.setVisible(True)
+
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Image", default_filename, "PNG Files (*.png)")
+
+        if file_path:
+            success = screenshot.save(file_path, "PNG")
+            if success:
+                print(f"Screenshot saved to {file_path}")
+            else:
+                print("Failed to save the screenshot.")
 
 class frmInvestigativeResult(QWidget):
     def __init__(self):

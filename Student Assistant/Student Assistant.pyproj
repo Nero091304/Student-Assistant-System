@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="frmAboutCourses.py" />
     <Compile Include="db_connection.py" />
+    <Compile Include="frmAboutCoursesDesign.py" />
     <Compile Include="frmAboutLSPU.py" />
     <Compile Include="frmAboutRiasec.py" />
     <Compile Include="frmAboutRiasecDesign.py" />

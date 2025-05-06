@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLabel
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 from frmQuestionsDesign import frmRealisticResult
@@ -10,11 +10,11 @@ from frmQuestionsDesign import frmEnterprisingResult
 from frmQuestionsDesign import frmConventionalResult
 
 class frmQuestions(QWidget):
-    def __init__(self): # , username
+    def __init__(self, username): 
         super().__init__()
         self.setFixedSize(1920, 1020)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        #self.username = username
+        self.username = username
 
         self.image_list = [
             {"file": "Q1.png", "category": "realistic"},
@@ -73,10 +73,10 @@ class frmQuestions(QWidget):
         # Track user answers (None = unanswered, 1 = Yes, 0 = No)
         self.answers = [None for _ in self.image_list]
 
-        """self.lblUsername = QLabel(f"{self.username}", self)
+        self.lblUsername = QLabel(f"{self.username}", self)
         self.lblUsername.setFixedSize(400, 80)
         self.lblUsername.move(341, 36)
-        self.lblUsername.setObjectName("lblUsername")"""
+        self.lblUsername.setObjectName("lblUsername")
 
         self.btnYes = QPushButton("Yes", self)
         self.btnYes.setFixedSize(300, 100)
@@ -365,7 +365,7 @@ class frmQuestions(QWidget):
         self.btnBack.hide()
         self.btnBack1.show()
         self.btnReset.show()
-        #self.lblUsername.hide()
+        self.lblUsername.hide()
 
         self.btnClickHere1.hide()
         self.btnClickHere2.hide()
@@ -451,7 +451,7 @@ class frmQuestions(QWidget):
         self.update_buttons_color()
 
     def Realistic_Result(self):
-        self.LSPU_form = frmRealisticResult() 
+        self.LSPU_form = frmRealisticResult(self.username) 
         self.LSPU_form.show()
 
     def Investigative_Result(self):

@@ -150,11 +150,11 @@ class frmUpload(QWidget):
             print(f"Failed to load stylesheet: {e}")
 
 class frmMain(QWidget):
-    def __init__(self): # , username
+    def __init__(self, username):  
         super().__init__()
         self.resize(1920, 1020)
         self.setWindowFlags(Qt.FramelessWindowHint)
-        #self.username = username
+        self.username = username
 
         self.upload_window = None
         self.about_sas_window = None
@@ -176,10 +176,10 @@ class frmMain(QWidget):
         self.player.mediaStatusChanged.connect(self.handle_media_status)
 
         # Label to display username
-        """self.lblUsername = QLabel(f"{username}", self)
+        self.lblUsername = QLabel(f"{username}", self)
         self.lblUsername.setFixedSize(400, 80)
         self.lblUsername.move(544, 43)
-        self.lblUsername.setObjectName("lblUsername")"""
+        self.lblUsername.setObjectName("lblUsername")
 
          # Text label
         self.lblSAS = QLabel("Student Assistant System", self)
@@ -595,10 +595,9 @@ class frmMain(QWidget):
         super(QPushButton, self.btn5).leaveEvent(event) 
 
     def open_questions_form(self):
-        self.questions_form = frmQuestions() #self.username
+        self.questions_form = frmQuestions(self.username) 
         self.questions_form.show()
-        #self.close()
-
+ 
     def About_LSPU_form(self):
         self.LSPU_form = frmAboutLSPU() 
         self.LSPU_form.show()
