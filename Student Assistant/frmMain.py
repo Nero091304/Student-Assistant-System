@@ -8,6 +8,7 @@ from frmQuestions import frmQuestions
 from frmAboutLSPU import frmAboutLSPU
 from frmAboutCourses import frmAboutCourses
 from frmAboutRiasec import frmAboutRiasec
+from frmAboutHistory import frmAboutHistory
 
 class frmAboutSAS(QWidget):
     def __init__(self):
@@ -287,6 +288,7 @@ class frmMain(QWidget):
         self.btnHistory.setFixedSize(350, 72)
         self.btnHistory.move(150, 830)
         self.btnHistory.setObjectName("btnHistory") 
+        self.btnHistory.clicked.connect(self.About_History_form)
 
         self.btnTest = QPushButton("Test Now", self)
         self.btnTest.setFixedSize(350, 72)
@@ -609,6 +611,10 @@ class frmMain(QWidget):
     def About_Courses_form(self):
         self.Courses_form = frmAboutCourses() 
         self.Courses_form.show()
+
+    def About_History_form(self):
+        self.History_form = frmAboutHistory() 
+        self.History_form.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

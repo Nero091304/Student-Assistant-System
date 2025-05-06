@@ -1,0 +1,44 @@
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}
+
+#btnExport {
+    background-color: #01F5FE;
+    color: #000000;
+    border-radius: 10px;
+    font-size: 28px;
+    font-family: "Roboto";
+    font-weight: Bold;
+}
+#btnExport:hover {
+    background-color: #00A3A9;
+    color: #FFFFFF;
+}
+#btnExport:pressed {
+    background-color: #006C70;
+    color: #FFFFFF;
+}
+
+#txtSearch {
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 28px;
+    font-family: "Roboto";
+}
+#btnRefresh {
+    border-radius: 10px;
+}
+#btnRefresh:hover {
+    background-color: rgba(112, 118, 135, 0.7); 
+}
+#btnRefresh:pressed {
+    background-color: #373A4E;
+}

@@ -434,6 +434,7 @@ class frmQuestions(QWidget):
         self.btnLeft.show()
         self.btnRight.show()
         self.btnSubmit.show()
+        self.lblUsername.show()
         self.btnSubmit.setEnabled(False)
         self.btnSubmit.setStyleSheet("")
 
@@ -455,23 +456,23 @@ class frmQuestions(QWidget):
         self.LSPU_form.show()
 
     def Investigative_Result(self):
-        self.LSPU_form = frmInvestigativeResult() 
+        self.LSPU_form = frmInvestigativeResult(self.username) 
         self.LSPU_form.show()
 
     def Artistic_Result(self):
-        self.LSPU_form = frmArtisticResult() 
+        self.LSPU_form = frmArtisticResult(self.username) 
         self.LSPU_form.show()
 
     def Social_Result(self):
-        self.LSPU_form = frmSocialResult() 
+        self.LSPU_form = frmSocialResult(self.username) 
         self.LSPU_form.show()
 
     def Enterprising_Result(self):
-        self.LSPU_form = frmEnterprisingResult() 
+        self.LSPU_form = frmEnterprisingResult(self.username) 
         self.LSPU_form.show()
 
     def Conventional_Result(self):
-        self.LSPU_form = frmConventionalResult() 
+        self.LSPU_form = frmConventionalResult(self.username) 
         self.LSPU_form.show()
    
 if __name__ == "__main__":

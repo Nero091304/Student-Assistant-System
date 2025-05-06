@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1b295b00-09f2-43d7-bd84-f9884cf9a02f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>frmMain.py</StartupFile>
+    <StartupFile>MEMEGRAPH.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -27,16 +27,19 @@
     <Compile Include="frmAboutLSPU.py" />
     <Compile Include="frmAboutRiasec.py" />
     <Compile Include="frmAboutRiasecDesign.py" />
+    <Compile Include="frmAboutHistory.py" />
     <Compile Include="frmLogin.py" />
     <Compile Include="frmMain.py" />
     <Compile Include="frmQuestions.py" />
     <Compile Include="frmQuestionsDesign.py" />
+    <Compile Include="MEMEGRAPH.py" />
     <Compile Include="module1.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AboutCourses.qss" />
     <Content Include="AboutLspu.qss" />
     <Content Include="AboutRiasec.qss" />
+    <Content Include="History.qss" />
     <Content Include="Login.qss" />
     <Content Include="Main.qss" />
     <Content Include="Questions.qss" />
