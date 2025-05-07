@@ -1,6 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QTableView, QHeaderView,  QDateEdit
+import mysql.connector
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QTableView, QHeaderView,  QDateEdit, QMessageBox
 from PyQt5.QtGui import QPainter, QPixmap, QIcon,  QStandardItemModel, QStandardItem
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, QDate
 
 class frmAboutHistory(QWidget):
     def __init__(self):
@@ -17,9 +18,14 @@ class frmAboutHistory(QWidget):
         self.btnClose.clicked.connect(self.exit_app)
 
         self.btnExport = QPushButton("Export", self)
-        self.btnExport.setFixedSize(377, 70)
-        self.btnExport.move(136, 841)
+        self.btnExport.setFixedSize(377, 60)
+        self.btnExport.move(136, 881)
         self.btnExport.setObjectName("btnExport")
+
+        self.btnView = QPushButton("View Result", self)
+        self.btnView.setFixedSize(377, 60)
+        self.btnView.move(136, 801)
+        self.btnView.setObjectName("btnView")
 
         self.txtSearch = QLineEdit(self)
         self.txtSearch.setFixedSize(495, 60)
@@ -28,7 +34,7 @@ class frmAboutHistory(QWidget):
 
         self.btnRefresh = QPushButton(self)
         self.btnRefresh.setFixedSize(70, 70)
-        self.btnRefresh.move(1772, 72)
+        self.btnRefresh.move(1772, 70)
         self.btnRefresh.setIcon(QIcon("Refresh.png"))  
         self.btnRefresh.setIconSize(QSize(50, 50))
         self.btnRefresh.setObjectName("btnRefresh")
@@ -46,15 +52,23 @@ class frmAboutHistory(QWidget):
         self.tableView.setObjectName("tableView")
 
         # Create and set model
-        self.model = QStandardItemModel(100, 4, self)  # 0 rows, 4 columns
-        self.model.setHorizontalHeaderLabels(["Date Taken", "Personality Type", "Score", "Remarks"])
+        self.model = QStandardItemModel(100, 6, self)  # 6 categories
+        self.model.setHorizontalHeaderLabels(["Date Taken",
+                                              "Personality Type",
+                                              "Realistic Score", 
+                                              "Investigative Score",
+                                              "Artistic Score",
+                                              "Social Score",
+                                              "Enterprising Score",
+                                              "Conventional Score",])
         self.tableView.setModel(self.model)
 
-        # Optional: Stretch columns to fit width
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
 
         self.load_stylesheet("History.qss")
+
+        self.fetch_data_from_db()
 
     def exit_app(self):
         self.close()
@@ -76,6 +90,35 @@ class frmAboutHistory(QWidget):
                 self.setStyleSheet(f.read())
         except FileNotFoundError:
             print(f"Stylesheet file '{file_path}' not found.")
+
+    def fetch_data_from_db(self):
+        try:
+            # Connect to the MySQL database
+            conn = mysql.connector.connect(
+                host="localhost",    # Update with your DB host
+                user="root",         # Update with your DB user
+                password="",         # Update with your DB password
+                database="smsdb"  # Update with your DB name
+            )
+            cursor = conn.cursor()
+
+            # Fetch data from the database
+            cursor.execute("SELECT Date, Personality, RScore, IScore, AScore, SScore, EScore, CScore FROM tblhistory")
+            rows = cursor.fetchall()
+
+            # Clear existing rows in the model
+            self.model.removeRows(0, self.model.rowCount())
+
+        # Insert data into the model
+            for row in rows:
+                items = [QStandardItem(str(value)) for value in row]
+                self.model.appendRow(items)
+
+            cursor.close()
+            conn.close()
+
+        except mysql.connector.Error as err:
+            QMessageBox.critical(self, "Database Error", f"Error: {err}")
 
 if __name__ == "__main__":
     app = QApplication([])

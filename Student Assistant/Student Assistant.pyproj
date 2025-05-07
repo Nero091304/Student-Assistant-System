@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1b295b00-09f2-43d7-bd84-f9884cf9a02f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>MEMEGRAPH.py</StartupFile>
+    <StartupFile>frmLogin.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

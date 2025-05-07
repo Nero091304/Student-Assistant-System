@@ -9,18 +9,33 @@
 }
 
 #btnExport {
-    background-color: #01F5FE;
-    color: #000000;
+    background-color: #FF0808;
+    color: #FFFFFF;
     border-radius: 10px;
-    font-size: 28px;
+    font-size: 26px;
     font-family: "Roboto";
     font-weight: Bold;
 }
 #btnExport:hover {
+    background-color: #AA0505;
+}
+#btnExport:pressed {
+    background-color: #710303;
+}
+
+#btnView {
+    background-color: #01F5FE;
+    color: #000000;
+    border-radius: 10px;
+    font-size: 26px;
+    font-family: "Roboto";
+    font-weight: Bold;
+}
+#btnView:hover {
     background-color: #00A3A9;
     color: #FFFFFF;
 }
-#btnExport:pressed {
+#btnView:pressed {
     background-color: #006C70;
     color: #FFFFFF;
 }

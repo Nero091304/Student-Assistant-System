@@ -1,4 +1,7 @@
 import sys
+import sqlite3
+import datetime
+import mysql.connector
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLabel
 from PyQt5.QtGui import QPainter, QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
@@ -8,6 +11,7 @@ from frmQuestionsDesign import frmArtisticResult
 from frmQuestionsDesign import frmSocialResult
 from frmQuestionsDesign import frmEnterprisingResult
 from frmQuestionsDesign import frmConventionalResult
+from frmAboutHistory import frmAboutHistory
 
 class frmQuestions(QWidget):
     def __init__(self, username): 
@@ -315,6 +319,7 @@ class frmQuestions(QWidget):
             self.btnYes.setStyleSheet("")
 
     def submit_answers(self):
+        self.insert_scores_to_database()
         self.show_results()
 
     def show_results(self):
@@ -474,7 +479,56 @@ class frmQuestions(QWidget):
     def Conventional_Result(self):
         self.LSPU_form = frmConventionalResult(self.username) 
         self.LSPU_form.show()
-   
+
+    def insert_scores_to_database(self):
+        try:
+        # Get today's date
+            current_date = datetime.date.today().strftime("%Y-%m-%d")
+
+        # Determine personality type based on highest score
+            scores = {
+                "Realistic": self.realisticScore,
+                "Investigative": self.investigativeScore,
+                "Artistic": self.artisticScore,
+                "Social": self.socialScore,
+                "Enterprising": self.enterprisingScore,
+                "Conventional": self.conventionalScore
+            }
+            personality = max(scores, key=scores.get)
+
+            # Connect to the MySQL database
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="smsdb"
+            )
+
+            cursor = connection.cursor()
+            query = """
+                INSERT INTO tblhistory 
+                (Date, Personality, RScore, IScore, AScore, SScore, EScore, CScore) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            values = (
+                current_date,
+                personality,
+                self.realisticScore,
+                self.investigativeScore,
+                self.artisticScore,
+                self.socialScore,
+                self.enterprisingScore,
+                self.conventionalScore
+            )
+
+            cursor.execute(query, values)
+            connection.commit()
+            cursor.close()
+            connection.close()
+
+        except mysql.connector.Error as err:
+            QMessageBox.critical(self, "Database Error", f"Failed to insert scores: {err}")
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     form = frmQuestions()
