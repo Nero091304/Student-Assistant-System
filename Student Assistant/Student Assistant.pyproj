@@ -28,6 +28,7 @@
     <Compile Include="frmAboutRiasec.py" />
     <Compile Include="frmAboutRiasecDesign.py" />
     <Compile Include="frmAboutHistory.py" />
+    <Compile Include="frmExport.py" />
     <Compile Include="frmLogin.py" />
     <Compile Include="frmMain.py" />
     <Compile Include="frmQuestions.py" />
@@ -39,6 +40,7 @@
     <Content Include="AboutCourses.qss" />
     <Content Include="AboutLspu.qss" />
     <Content Include="AboutRiasec.qss" />
+    <Content Include="Export.qss" />
     <Content Include="History.qss" />
     <Content Include="Login.qss" />
     <Content Include="Main.qss" />

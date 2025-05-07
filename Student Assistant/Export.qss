@@ -1,0 +1,33 @@
+#btnClose {
+    border-radius: 10px;
+}
+#btnClose:hover {
+    background-color: #AA0000;
+}
+#btnClose:pressed {
+    background-color: #840808;
+}
+#lblDate {
+    color: #000000;
+    font-size: 20px;
+    font-family: "Roboto";
+}
+
+#lblPersonality {
+    color: #000000;
+    font-size: 28px;
+    font-family: "Roboto";
+    font-weight: bold;
+}
+#lblScore {
+    color: #000000;
+    font-size: 28px;
+    font-family: "Roboto";
+    font-weight: bold;
+}
+#lblUsername {
+     color: #000000;
+     font-size: 35px;
+     font-family: "Segoe UI", sans-serif;
+     font-weight: bold;
+}

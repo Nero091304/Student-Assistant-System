@@ -1,5 +1,4 @@
 import sys
-import sqlite3
 import datetime
 import mysql.connector
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QLabel
@@ -11,7 +10,6 @@ from frmQuestionsDesign import frmArtisticResult
 from frmQuestionsDesign import frmSocialResult
 from frmQuestionsDesign import frmEnterprisingResult
 from frmQuestionsDesign import frmConventionalResult
-from frmAboutHistory import frmAboutHistory
 
 class frmQuestions(QWidget):
     def __init__(self, username): 
@@ -483,7 +481,8 @@ class frmQuestions(QWidget):
     def insert_scores_to_database(self):
         try:
         # Get today's date
-            current_date = datetime.date.today().strftime("%Y-%m-%d")
+            today = datetime.date.today()
+            current_date = f"{today.strftime('%B')} {today.day}, {today.year}"
 
         # Determine personality type based on highest score
             scores = {
@@ -494,7 +493,7 @@ class frmQuestions(QWidget):
                 "Enterprising": self.enterprisingScore,
                 "Conventional": self.conventionalScore
             }
-            personality = max(scores, key=scores.get)
+            personality = max(scores, key=scores.get).upper()
 
             # Connect to the MySQL database
             connection = mysql.connector.connect(

@@ -613,7 +613,7 @@ class frmMain(QWidget):
         self.Courses_form.show()
 
     def About_History_form(self):
-        self.History_form = frmAboutHistory() 
+        self.History_form = frmAboutHistory(self.username) 
         self.History_form.show()
 
 if __name__ == "__main__":
