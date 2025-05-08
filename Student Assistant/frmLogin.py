@@ -12,30 +12,25 @@ class frmLogin(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)  
         self.cp = 0  
 
-        # Image Slideshow (Placed on the Left Side)
         self.lblImage = QLabel(self)
         self.lblImage.setFixedSize(460, 653)  
         self.lblImage.move(0, 0)  
         self.lblImage.setObjectName("lblImage")
         self.lblImage.setScaledContents(True)
 
-        # Second QLabel for smooth transition effect
         self.lblNextImage = QLabel(self)
         self.lblNextImage.setFixedSize(460, 653)
         self.lblNextImage.move(0, 0)  
         self.lblNextImage.setScaledContents(True)
         self.lblNextImage.hide()
 
-        # List of images for slideshow
         self.image_index = 0
         self.image_list = ["img1.png", "img2.png", "img3.png"]
 
-        # Timer to change images
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_image)
         self.timer.start(4000)  
 
-        # Show the first image immediately
         self.update_image()
 
         # Username Input
@@ -276,7 +271,7 @@ class frmLogin(QWidget):
             con.close()
 
         if result:
-            QMessageBox.information(self, "Login Security", f"ACCESS GRANTED: Hi {username}! Welcome to Student Assistant System")
+            QMessageBox.information(self, "Login Security", f"Login Successfully!: Hi {username}! Welcome to Student Assistant System")
             self.main_window = frmMain(username) 
             self.main_window.show()
             self.close()
@@ -287,7 +282,7 @@ class frmLogin(QWidget):
             self.cp += 1
 
             if self.cp >= 4:
-                QMessageBox.critical(self, "Limit Reached", "Student Management System application will now close.")
+                QMessageBox.critical(self, "Limit Reached", "Student Assisstant System application will now close.")
                 sys.exit()
 
     # DATABASE CONNECTION Create ==================================================

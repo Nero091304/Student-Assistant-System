@@ -189,7 +189,7 @@ class frmQuestions(QWidget):
         self.btnClickHere6.hide()
         
         self.load_stylesheet("Questions.qss")
-        self.update_buttons_color()  # Initialize button colors properly
+        self.update_buttons_color()  
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -208,10 +208,8 @@ class frmQuestions(QWidget):
     def answer_question(self, answer_value):
         category = self.image_list[self.current_image_index]["category"]
 
-        # Check previous answer
         previous_answer = self.answers[self.current_image_index]
 
-        # Update scores by removing previous answer
         if previous_answer == 1:
             if category == "realistic":
                 self.realisticScore -= 1
@@ -228,7 +226,6 @@ class frmQuestions(QWidget):
 
         self.answers[self.current_image_index] = answer_value
 
-    # Update scores with new answer
         if answer_value == 1:
             if category == "realistic":
                 self.realisticScore += 1

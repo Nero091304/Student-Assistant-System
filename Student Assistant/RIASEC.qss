@@ -9,12 +9,8 @@
 }
 
 #btnSave {
-    background-color: #121C1A;
-    color: #FFFFFF;
+    background-color: transparent;
     border-radius: 10px;
-    font-size: 25px;
-    font-family: "Roboto";
-    font-weight: Bold;
 }
 #btnSave:hover {
     background-color: #616766;
