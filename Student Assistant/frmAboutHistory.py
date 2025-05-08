@@ -36,6 +36,8 @@ class frmAboutHistory(QWidget):
         self.txtSearch.setFixedSize(495, 60)
         self.txtSearch.move(770, 76)
         self.txtSearch.setObjectName("txtSearch")
+        self.txtSearch.setPlaceholderText("Search by Personality Type...")
+        self.txtSearch.setStyleSheet("QLineEdit { font-size: 18px; }")
         self.txtSearch.textChanged.connect(self.filter_by_personality)
 
         self.btnRefresh = QPushButton(self)
@@ -52,16 +54,15 @@ class frmAboutHistory(QWidget):
         self.datePicker.setFixedSize(257, 60)
         self.datePicker.move(1317, 76)  
         self.datePicker.setObjectName("datePicker")
-        self.datePicker.setDate(QDate.currentDate())
-
-        self.tableView = QTableView(self)
-        self.tableView.setFixedSize(1210, 775)
-        self.tableView.move(628, 166)
-        self.tableView.setObjectName("tableView")
+        self.datePicker.setDate(QDate.currentDate())  
         self.datePicker.dateChanged.connect(self.filter_by_date)
 
-        # Create and set model
-        self.model = QStandardItemModel(100, 6, self)  # 6 categories
+        self.tableView = QTableView(self)
+        self.tableView.setFixedSize(1220, 775)
+        self.tableView.move(628, 166)
+        self.tableView.setObjectName("tableView")
+
+        self.model = QStandardItemModel(100, 6, self)  
         self.model.setHorizontalHeaderLabels(["Date Taken",
                                               "Personality Type",
                                               "Realistic Score", 
@@ -73,6 +74,7 @@ class frmAboutHistory(QWidget):
         self.tableView.setModel(self.model)
         self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableView.selectionModel().selectionChanged.connect(self.on_row_selected)
+
         self.btnView.setEnabled(False)
 
         header = self.tableView.horizontalHeader()
@@ -86,10 +88,10 @@ class frmAboutHistory(QWidget):
         self.close()
 
     def filter_by_date(self, selected_date):
-        formatted_date = selected_date.toString("MMMM d, yyyy")  # Match displayed format
+        formatted_date = selected_date.toString("MMMM d, yyyy")  
 
         for row in range(self.model.rowCount()):
-            item = self.model.item(row, 0)  # Column 0 = Date Taken
+            item = self.model.item(row, 0) 
             is_visible = item.text() == formatted_date
             self.tableView.setRowHidden(row, not is_visible)
 
@@ -97,17 +99,16 @@ class frmAboutHistory(QWidget):
         search_text = text.strip().lower()
 
         for row in range(self.model.rowCount()):
-            item = self.model.item(row, 1)  # Column 1 = Personality Type
+            item = self.model.item(row, 1)
             personality = item.text().lower() if item else ""
 
             is_visible = search_text in personality
             self.tableView.setRowHidden(row, not is_visible)
 
     def reset_filters(self):
-        self.txtSearch.clear()  # Clear the search box
-        self.datePicker.setDate(QDate.currentDate())  # Reset date to today
+        self.txtSearch.clear()  
+        self.datePicker.setDate(QDate.currentDate()) 
 
-        # Show all rows
         for row in range(self.model.rowCount()):
             self.tableView.setRowHidden(row, False)
 
@@ -117,6 +118,22 @@ class frmAboutHistory(QWidget):
             selected_row = selected_indexes[0].row()
             date_value = self.model.item(selected_row, 0).text()
             personality_value = self.model.item(selected_row, 1).text()
+
+            row_has_data = False
+            for col in range(self.model.columnCount()):
+                item = self.model.item(selected_row, col)
+                if item and item.text().strip() != "":  
+                    row_has_data = True
+                    break  
+
+            if not row_has_data:
+                QMessageBox.information(self, "No Data", "There is no output here.")
+                return  
+
+            date_value = self.model.item(selected_row, 0).text()
+            personality_value = self.model.item(selected_row, 1).text()
+
+            self.set_button_enabled(self.btnExport, True)
 
         personality_column_map = {
             "REALISTIC": 2,   
@@ -149,7 +166,7 @@ class frmAboutHistory(QWidget):
     def on_row_selected(self, selected, deselected):
         has_selection = self.tableView.selectionModel().hasSelection()
         self.set_button_enabled(self.btnView, has_selection)
-        self.set_button_enabled(self.btnExport, has_selection)
+        self.set_button_enabled(self.btnExport, False)
   
     def set_button_enabled(self, button, enabled):
         button.setEnabled(enabled)
@@ -176,37 +193,60 @@ class frmAboutHistory(QWidget):
         except FileNotFoundError:
             print(f"Stylesheet file '{file_path}' not found.")
 
+    def mouseDoubleClickEvent(self, event):
+        event.ignore()
+
     def fetch_data_from_db(self):
         try:
-            # Connect to the MySQL database
             conn = mysql.connector.connect(
-                host="localhost",    # Update with your DB host
-                user="root",         # Update with your DB user
-                password="",         # Update with your DB password
-                database="smsdb"  # Update with your DB name
+                host="localhost",    
+                user="root",         
+                password="",        
+                database="sasdb"  
             )
             cursor = conn.cursor()
 
-            # Fetch data from the database
             cursor.execute("SELECT Date, Personality, RScore, IScore, AScore, SScore, EScore, CScore FROM tblhistory")
             rows = cursor.fetchall()
 
-            # Clear existing rows in the model
             self.model.removeRows(0, self.model.rowCount())
 
-        # Insert data into the model
-            for row in rows:
-                row = list(row)  # Convert to a list to modify
-                row[1] = row[1].upper()
+        
+            total_rows = 100  # Set the number of rows you want
+            total_columns = self.model.columnCount()  # Get the number of columns from the model
 
-                items = [QStandardItem(str(value)) for value in row]
-                self.model.appendRow(items)
+# Create blank rows for the table
+            for i in range(total_rows):
+                row_items = []
+                for j in range(total_columns):
+                    item = QStandardItem("")  # Blank cell
+                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Disable editing
+                    item.setTextAlignment(Qt.AlignCenter)  # Center the text
+                    row_items.append(item)
+                self.model.appendRow(row_items)
 
-            cursor.close()
-            conn.close()
+# Now, populate the table with real data if available
+            for i, row in enumerate(rows):
+                if i >= total_rows:
+                    break  # Avoid exceeding the row limit
+                row = list(row)
+                row[1] = row[1].upper()  # Uppercase Personality
+
+    # Create the row items for real data
+                row_items = [QStandardItem(str(value)) for value in row]
+                for item in row_items:
+                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Disable editing
+                    item.setTextAlignment(Qt.AlignCenter)  # Center the text
+                self.model.removeRow(i)  # Remove the empty row
+                self.model.insertRow(i, row_items)  # Insert the row with data
+
+                cursor.close()
+                conn.close()
 
         except mysql.connector.Error as err:
             QMessageBox.critical(self, "Database Error", f"Error: {err}")
+
+
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -57,3 +57,68 @@
 #btnRefresh:pressed {
     background-color: #373A4E;
 }
+
+QDateEdit {
+    background-color: #FFFFFF;  
+    color: #000000;              
+    border: 1px solid #8c8c8c;     
+    padding: 5px;              
+    font-size: 17px;
+    font-family: "Roboto";
+}
+
+QTableView {
+    background-color: #FFFFFF;  /* Set the table background to #161362 (deep blue) */
+    border: none;                /* Remove the border around the table */
+    font-size: 16px;             /* Font size */
+    color: #000000;      
+    text-align: center;
+    gridline-color: #000000;     /* Gridline color between cells */
+    selection-background-color: #D0F0C0;  /* Highlight color for selected rows */
+    alternate-background-color: #f5f5f5; /* Zebra striping for alternate rows */
+}
+
+QHeaderView::section {
+    background-color: #161362;  /* Header background color (green for contrast) */
+    color: white;               /* White text color in the header */
+    font-weight: bold;          /* Bold header text */
+    font-size: 14px;            /* Font size for header text */
+    padding: 8px;       
+    gridline-color: #FFFFFF; 
+    text-align: center;         /* Center-align text in header */
+    border-radius: 5px;         /* Rounded corners for header cells */
+}
+
+QHeaderView::horizontal {
+    background-color: #161362;  /* Header background color (green) */
+    border: none;                /* Remove border around horizontal header */
+}
+
+QHeaderView::vertical {
+    background-color: #161362;  /* Header background color (green) */
+    border: none;                /* Remove border around vertical header */
+}
+
+QTableView::item {
+    padding: 10px;               /* Padding inside cells */
+    border: 1px solid #e0e0e0;   /* Light border around each cell */
+    border: 1px solid #FFFFFFF;          /* Rounded corners for each cell */
+    background-color: #ffffff;   /* White background for table cells */
+    color: #000000;              /* Dark text color for content */
+    text-align: center;          /* Center-align text in cells */
+}
+
+QTableView::item:selected {
+    background-color: #A0A0A0;   /* Background color when an item is selected */
+    color: #000000;                 /* White text when selected */
+}
+
+QTableView::item:hover {
+    background-color: #A0A0A0;
+    color: #000000;    /* Light gray background on hover */
+}
+
+QTableCornerButton::section {
+    background-color: #161362;   /* Same green as header */
+    border: none;                 /* Remove border around the corner button */
+}

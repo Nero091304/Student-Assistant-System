@@ -379,7 +379,7 @@ class frmAboutLSPU(QWidget):
                     host="localhost",
                     user="root",             
                     password="",             
-                    database="smsdb"  
+                    database="sasdb"  
                 )
                 cursor = connection.cursor()
 

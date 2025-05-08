@@ -45,6 +45,8 @@ class frmRealisticPaper(QWidget):
         self.lblPersonality.setText(personality_value)
         self.lblPersonality.setObjectName("lblPersonality")
 
+        self.set_personality_color(personality_value)
+
         self.lblScore = QLabel(self)
         self.lblScore.setFixedSize(360, 45)
         self.lblScore.move(521, 255)
@@ -93,52 +95,68 @@ class frmRealisticPaper(QWidget):
         figure = Figure(figsize=(4, 3))
         canvas = FigureCanvas(figure)
         canvas.setParent(self)
-        canvas.setGeometry(378, 357, 280, 211)  # Adjust position/size as needed
+        canvas.setGeometry(378, 357, 280, 211)
 
         ax = figure.add_subplot(111)
         labels = list(scores_dict.keys())
-        values = list(scores_dict.values())  
+        values = list(scores_dict.values())
 
-        ax.bar(labels, values, color='blue')
-        ax.set_ylim(0, 7)  # Max raw score is 42
+    # Define a list of colors for each bar (one for each personality score)
+        bar_colors = ["#DB5471", "#F5A278", "#C4A82F", "#49C56D", "#11A4B2", "#9F84BD"]
+
+    # Ensure we have the same number of colors as bars
+        if len(bar_colors) < len(values):
+            bar_colors.extend(["#000000"] * (len(values) - len(bar_colors)))  # Extend if more bars than colors
+
+    # Create a bar chart with different colors for each bar
+        ax.bar(labels, values, color=bar_colors[:len(values)])
+
+        ax.set_ylim(0, 7)
         ax.set_ylabel("Raw Score")
         ax.set_title("Personality Type Scores")
         ax.tick_params(axis='x', rotation=45)
 
     def export_to_file(self):
-        # Capture the window content to a QPixmap
         pixmap = QPixmap(self.size())
-        self.render(pixmap)  # Render the window content into the pixmap
+        self.render(pixmap)  
 
-        # Open file dialog to select location to save the file
+        
         file_dialog = QFileDialog(self)
-        file_dialog.setDefaultSuffix('png')  # Default file type is PNG
+        file_dialog.setDefaultSuffix('png')  
         file_path, _ = file_dialog.getSaveFileName(self, "Save File", "", "Images (*.png *.jpg *.bmp)")
         
         if file_path:
-            pixmap.save(file_path)  # Save the file to the selected path
+            pixmap.save(file_path) 
             print(f"File saved to {file_path}")
 
     def export_to_png(self):
         self.btnClose.setVisible(False)
         pixmap = self.grab()
 
-    # Get the personality value from lblPersonality to create the file name
         personality_value = self.lblPersonality.text()
 
-    # Generate a custom filename based on the username and personality value
         filename = f"{self.username}_{personality_value}PAPER.png"
 
-    # Sanitize the filename to replace any invalid characters for filenames
         filename = filename.replace(" ", "_").replace("/", "-").replace(":", "-")
 
-    # Show file dialog to save the PNG with the generated filename
         options = QFileDialog.Options()
         file_name, _ = QFileDialog.getSaveFileName(self, "Save as PNG", filename, "PNG Files (*.png);;All Files (*)", options=options)
 
         if file_name:
-        # Save the pixmap as PNG to the selected file location
             pixmap.save(file_name, "PNG")
+
+    def set_personality_color(self, personality_value):
+        color_map = {
+        "REALISTIC": "#DB5471",
+        "INVESTIGATIVE": "#F5A278",
+        "ARTISTIC": "#C4A82F",
+        "SOCIAL": "#49C56D",
+        "ENTERPRISING": "#11A4B2",
+        "CONVENTIONAL": "#9F84BD"
+    }
+
+        color = color_map.get(personality_value, "black")
+        self.lblPersonality.setStyleSheet(f"font-size: 28px; font-family: 'Roboto'; font-weight: bold; color: {color};")
 
 if __name__ == "__main__":
     app = QApplication([])

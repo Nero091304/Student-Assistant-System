@@ -226,7 +226,6 @@ class frmQuestions(QWidget):
             elif category == "conventional":
                 self.conventionalScore -= 1
 
-    # Save the new answer
         self.answers[self.current_image_index] = answer_value
 
     # Update scores with new answer
@@ -248,14 +247,12 @@ class frmQuestions(QWidget):
         self.check_all_answered()
 
         if previous_answer is None:
-        # If the question was NOT answered before, move to next automatically
             if self.current_image_index < len(self.image_list) - 1:
                 self.current_image_index += 1
                 self.update()
                 self.update_buttons_color()
         else:
-        # If user CHANGED an already answered question, stay on the same question
-            pass  # do nothing, stay on the same image
+            pass 
             
     def check_all_answered(self):
         if None not in self.answers:
@@ -272,7 +269,7 @@ class frmQuestions(QWidget):
     def go_next(self):
         if self.answers[self.current_image_index] is None:
             QMessageBox.warning(self, "Warning", "Answer the current question first.")
-            return  # Stop here if not answered yet
+            return  
         if self.current_image_index < len(self.image_list) - 1:
             self.current_image_index += 1
             self.update()
@@ -500,7 +497,7 @@ class frmQuestions(QWidget):
                 host="localhost",
                 user="root",
                 password="",
-                database="smsdb"
+                database="sasdb"
             )
 
             cursor = connection.cursor()
